@@ -1,0 +1,27 @@
+Package: ubigen
+Title: Graphical Interface for Finding Patterns in Gene Expression
+Version: 0.0.0.9000
+Authors@R:
+    person(
+        "Elias",
+        "Projahn",
+        email = "elias@johrpan.de",
+        role = c("aut", "cre"),
+        comment = c(ORCID = "0000-0002-4153-4071")
+    )
+Description: This package contains precomputed data including comparisons in
+    gene expression. It provides a graphical interface to analyze and visualize
+    those data.
+License: AGPL (>= 3)
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.2
+Depends:
+    R (>= 2.10)
+LazyData: true
+Imports:
+    bslib,
+    data.table,
+    DT,
+    glue,
+    shiny
