@@ -16,6 +16,7 @@ server <- function(input, output) {
 
         data.table::setorder(data, -score)
         data[, rank := .I]
+        data[, percentile := 1 - rank / max(rank)]
 
         data
     })
@@ -33,6 +34,7 @@ genes_table <- function(data) {
             "?db=core;g={gene}\" target=\"_blank\">{hgnc_name}</a>"
         ),
         "Rank" = rank,
+        "Percentile" = percentile,
         "Score" = score,
         "Median" = median_expression,
         "Mean" = mean_expression,
@@ -51,6 +53,7 @@ genes_table <- function(data) {
     ) |>
         DT::formatPercentage(
             c(
+                "Percentile",
                 "Score",
                 "Expressed",
                 "Above 50 TPM",
