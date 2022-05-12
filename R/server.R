@@ -1,7 +1,7 @@
 #' Server implementing the main user interface.
 #' @noRd
 server <- function(input, output) {
-    output$ranked_data <- DT::renderDataTable({
+    ranked_data <- reactive({
         total_weight <- abs(input$above_median) +
             abs(input$mean_expression) +
             abs(input$sd_expression)
@@ -17,10 +17,10 @@ server <- function(input, output) {
         data.table::setorder(data, -score)
         data[, rank := .I]
 
-        genes_table(data)
+        data
     })
 
-    output$all_data <- DT::renderDataTable(genes_table(ubigen::genes))
+    output$ranked_data <- DT::renderDataTable(genes_table(ranked_data()))
 }
 
 #' Create a displayable data table from the gene results data.

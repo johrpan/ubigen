@@ -46,8 +46,7 @@ ui <- function() {
             )
         ),
         tabPanel(
-            title = "Data",
-            DT::dataTableOutput("all_data")
+            title = "Help"
         ),
         tabPanel(
             title = "Publication"
