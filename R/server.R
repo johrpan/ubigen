@@ -106,9 +106,24 @@ genes_table <- function(data) {
 
     DT::datatable(
         data,
-        options = list(pageLength = 100),
+        options = list(
+            buttons = list(
+                list(
+                    extend = "copy",
+                    text = "Copy to clipboard"
+                ),
+                list(
+                    extend = "csv",
+                    text = "Download CSV"
+                )
+            ),
+            dom = "fBrtip",
+            pageLength = 100
+        ),
         rownames = FALSE,
-        escape = FALSE
+        escape = FALSE,
+        selection = "none",
+        extensions = "Buttons"
     ) |>
         DT::formatPercentage(
             c(
