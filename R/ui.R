@@ -91,11 +91,15 @@ ui <- function() {
                     width = 9,
                     h3("Distribution of scores"),
                     div(paste0(
-                        "Note: Click or drag within the figure to select ",
-                        "genes of interest."
+                        "Click or drag within the figure to select genes of ",
+                        "interest."
                     )),
                     plotly::plotlyOutput("scores_plot"),
                     h3("Detailed ranking"),
+                    div(paste0(
+                        "Click on gene names to view them using the Ensembl ",
+                        "genome browser."
+                    )),
                     div(class = "p-1"),
                     DT::dataTableOutput("selected_genes")
                 )
