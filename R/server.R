@@ -83,7 +83,6 @@ genes_table <- function(data) {
         "Mean" = mean_expression,
         "Standard deviation" = sd_expression,
         "Expressed" = above_zero,
-        "Above 50 TPM" = above_threshold,
         "Above median" = above_median,
         "Above 95%" = above_95
     )]
@@ -99,7 +98,6 @@ genes_table <- function(data) {
                 "Percentile",
                 "Score",
                 "Expressed",
-                "Above 50 TPM",
                 "Above median",
                 "Above 95%"
             ),
