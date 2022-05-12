@@ -13,18 +13,60 @@ ui <- function() {
             sidebarLayout(
                 sidebarPanel(
                     width = 3,
-                    h3("Criteria"),
+                    h3("Features"),
                     sliderInput(
-                        "above_median",
-                        "Expressed above median",
+                        "above_zero",
+                        verticalLayout(
+                            strong("Expressed"),
+                            paste0(
+                                "Percentage of samples in which the gene is ",
+                                "expressed."
+                            )
+                        ),
                         min = -1.0,
                         max = 1.0,
                         step = 0.01,
-                        value = 1.0
+                        value = 0.33
+                    ),
+                    sliderInput(
+                        "above_median",
+                        verticalLayout(
+                            strong("Expressed above median"),
+                            paste0(
+                                "Percentage of samples that express the gene ",
+                                "more than the median of expression within ",
+                                "that sample."
+                            )
+                        ),
+                        min = -1.0,
+                        max = 1.0,
+                        step = 0.01,
+                        value = 0.33
+                    ),
+                    sliderInput(
+                        "above_95",
+                        verticalLayout(
+                            strong("Expressed above 95%"),
+                            paste0(
+                                "Percentage of samples that express the gene ",
+                                "more than the 95. percentile of expression ",
+                                "within that sample."
+                            )
+                        ),
+                        min = -1.0,
+                        max = 1.0,
+                        step = 0.01,
+                        value = 0.33
                     ),
                     sliderInput(
                         "mean_expression",
-                        "Mean expression",
+                        verticalLayout(
+                            strong("Mean expression"),
+                            div(paste0(
+                                "Average of the gene's expression across all ",
+                                "samples."
+                            ))
+                        ),
                         min = -1.0,
                         max = 1.0,
                         step = 0.01,
@@ -32,7 +74,13 @@ ui <- function() {
                     ),
                     sliderInput(
                         "sd_expression",
-                        "Standard deviation",
+                        verticalLayout(
+                            strong("Standard deviation"),
+                            paste0(
+                                "Standard deviation of the gene's expression ",
+                                "across all samples."
+                            )
+                        ),
                         min = -1.0,
                         max = 1.0,
                         step = 0.01,
