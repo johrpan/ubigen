@@ -4,9 +4,11 @@
 \alias{run_app}
 \title{Run the application server.}
 \usage{
-run_app(port = 3464)
+run_app(host = "127.0.0.1", port = 3464)
 }
 \arguments{
+\item{host}{The hostname to serve the application on.}
+
 \item{port}{The port to serve the application on.}
 }
 \description{
