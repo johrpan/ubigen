@@ -41,7 +41,17 @@ ui <- function() {
                 ),
                 mainPanel(
                     width = 9,
-                    DT::dataTableOutput("ranked_data")
+                    tabsetPanel(
+                        type = "pills",
+                        tabPanel(
+                            title = "Distribution of scores",
+                            plotly::plotlyOutput("scores_plot")
+                        ),
+                        tabPanel(
+                            title = "Detailed results",
+                            DT::dataTableOutput("ranked_data")
+                        )
+                    )
                 )
             )
         ),

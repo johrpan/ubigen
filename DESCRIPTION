@@ -23,5 +23,6 @@ Imports:
     bslib,
     data.table,
     DT,
+    plotly,
     glue,
     shiny
