@@ -22,7 +22,18 @@ server <- function(input, output) {
     })
 
     output$scores_plot <- plotly::renderPlotly(scores_plot(ranked_data()))
-    output$ranked_data <- DT::renderDataTable(genes_table(ranked_data()))
+
+    output$selected_genes <- DT::renderDataTable({
+        selected_points <- plotly::event_data("plotly_selected")
+
+        data <- if (is.null(selected_points)) {
+            ranked_data()
+        } else {
+            ranked_data()[rank %in% selected_points$x]
+        }
+
+        genes_table(data)
+    })
 }
 
 #' Create plot showing the distribution of scores using `plotly`.
@@ -63,7 +74,9 @@ scores_plot <- function(ranked_data, ranks = 1000) {
         ) |>
         plotly::layout(
             xaxis = list(title = ranks_label),
-            yaxis = list(title = "Score")
+            yaxis = list(title = "Score"),
+            clickmode = "event+select",
+            dragmode = "select"
         )
 }
 

@@ -41,17 +41,15 @@ ui <- function() {
                 ),
                 mainPanel(
                     width = 9,
-                    tabsetPanel(
-                        type = "pills",
-                        tabPanel(
-                            title = "Distribution of scores",
-                            plotly::plotlyOutput("scores_plot")
-                        ),
-                        tabPanel(
-                            title = "Detailed results",
-                            DT::dataTableOutput("ranked_data")
-                        )
-                    )
+                    h3("Distribution of scores"),
+                    div(paste0(
+                        "Note: Click or drag within the figure to select ",
+                        "genes of interest."
+                    )),
+                    plotly::plotlyOutput("scores_plot"),
+                    h3("Detailed ranking"),
+                    div(class = "p-1"),
+                    DT::dataTableOutput("selected_genes")
                 )
             )
         ),
