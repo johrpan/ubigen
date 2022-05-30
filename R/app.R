@@ -5,5 +5,5 @@
 #'
 #' @export
 run_app <- function(host = "127.0.0.1", port = 3464) {
-    runApp(shinyApp(ui, server), host = host, port = port)
+  runApp(shinyApp(ui, server), host = host, port = port)
 }
