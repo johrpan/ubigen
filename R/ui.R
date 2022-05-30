@@ -14,49 +14,29 @@ ui <- function() {
         sidebarPanel(
           width = 3,
           h3("Features"),
-          sliderInput(
-            "above_zero",
+          selectInput(
+            "cross_sample_metric",
             verticalLayout(
-              strong("Expressed"),
-              paste0(
-                "Percentage of samples in which the gene is ",
-                "expressed."
-              )
+               strong("Expression across samples"),
+               paste0(
+                 "Proportion samples in which the gene is expressed above the ",
+                 "selected threshold. Select a method and a weight for the ",
+                 "final score."
+               )
             ),
-            min = -1.0,
-            max = 1.0,
-            step = 0.01,
-            value = 0.33
+            list(
+              "Above 95th percentile" = "above_95",
+              "Above median" = "above_median",
+              "Above zero" = "above_zero"
+            )
           ),
           sliderInput(
-            "above_median",
-            verticalLayout(
-              strong("Expressed above median"),
-              paste0(
-                "Percentage of samples that express the gene ",
-                "more than the median of expression within ",
-                "that sample."
-              )
-            ),
+            "cross_sample_weight",
+            label = NULL,
             min = -1.0,
             max = 1.0,
             step = 0.01,
-            value = 0.33
-          ),
-          sliderInput(
-            "above_95",
-            verticalLayout(
-              strong("Expressed above 95%"),
-              paste0(
-                "Percentage of samples that express the gene ",
-                "more than the 95. percentile of expression ",
-                "within that sample."
-              )
-            ),
-            min = -1.0,
-            max = 1.0,
-            step = 0.01,
-            value = 0.33
+            value = 1.0
           ),
           sliderInput(
             "mean_expression",

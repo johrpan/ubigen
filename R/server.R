@@ -2,18 +2,14 @@
 #' @noRd
 server <- function(input, output) {
   ranked_data <- reactive({
-    total_weight <- abs(input$above_zero) +
-      abs(input$above_median) +
-      abs(input$above_95) +
+    total_weight <- abs(input$cross_sample_weight) +
       abs(input$mean_expression) +
       abs(input$sd_expression)
 
     data <- data.table::copy(ubigen::genes)
 
     data[, score :=
-      (input$above_zero * above_zero +
-        input$above_95 * above_95 +
-        input$above_median * above_median +
+      (input$cross_sample_weight * get(input$cross_sample_metric) +
         input$mean_expression * mean_expression_normalized +
         input$sd_expression * sd_expression_normalized) /
         total_weight]
