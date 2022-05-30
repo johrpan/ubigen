@@ -24,7 +24,7 @@ overview_plot <- function(ranked_data,
       yaxis = list(title = "Score")
     )
 
-  if (!is.null(highlighted_genes)) {
+  if (length(highlighted_genes) > 0) {
     figure <- figure |>
       plotly::add_markers(
         data = ranked_data[gene %chin% highlighted_genes],
@@ -42,6 +42,33 @@ overview_plot <- function(ranked_data,
   }
 
   figure
+}
+
+#' Create a plot comparing some genes with the overall ranking.
+#'
+#' @param ranked_data The ranking to visualize.
+#' @param highlighted_genes Genes that will be compared.
+#'
+#' @return A `plotly` figure.
+#' @noRd
+box_plot <- function(ranked_data, highlighted_genes) {
+  data <- data.table::copy(ranked_data)
+  data[, group := data.table::fifelse(
+    gene %chin% highlighted_genes,
+    "Your genes",
+    "Other genes"
+  )]
+
+  plotly::plot_ly() |>
+    plotly::add_boxplot(
+      data = data,
+      x = ~score,
+      y = ~group,
+      boxpoints = FALSE
+    ) |> plotly::layout(
+      xaxis = list(title = "Score"),
+      yaxis = list(title = "")
+    )
 }
 
 #' Create plot showing the distribution of scores using `plotly`.

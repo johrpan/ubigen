@@ -1,6 +1,6 @@
 #' Server implementing the main user interface.
 #' @noRd
-server <- function(input, output) {
+server <- function(input, output, session) {
   ranked_data <- reactive({
     total_weight <- abs(input$cross_sample_weight) + abs(input$sd_expression)
     data <- data.table::copy(ubigen::genes)
@@ -9,6 +9,9 @@ server <- function(input, output) {
       (input$cross_sample_weight * get(input$cross_sample_metric) +
         input$sd_expression * sd_expression_normalized) /
         total_weight]
+
+    # Normalize scores to be between 0.0 and 1.0.
+    data[, score := (score - min(score)) / (max(score) - min(score))]
 
     data.table::setorder(data, -score)
     data[, rank := .I]
@@ -23,6 +26,50 @@ server <- function(input, output) {
     ranked_data(),
     highlighted_genes = custom_genes()
   ))
+
+  observeEvent(custom_genes(),
+    { # nolint
+      if (length(custom_genes()) > 0) {
+        updateTabsetPanel(session, "custom_genes_panel", selected = "show")
+      } else {
+        updateTabsetPanel(session, "custom_genes_panel", selected = "hide")
+      }
+    },
+    ignoreNULL = FALSE
+  )
+
+  output$custom_genes_synopsis <- renderText({
+    comparison_gene_ids <- custom_genes()
+
+    if (length(comparison_gene_ids) > 1) {
+      reference <- ranked_data()[!gene %chin% comparison_gene_ids, score]
+      comparison <- ranked_data()[gene %chin% comparison_gene_ids, score]
+
+      p_value <- stats::wilcox.test(
+        x = comparison,
+        y = reference,
+        alternative = "greater"
+      )$p.value
+
+      reference_median <- stats::median(reference)
+      comparison_median <- stats::median(comparison)
+
+      HTML(glue::glue(
+        "The p-value for the alternative hypothesis that your genes have ",
+        "higher scores than other genes is <b>{format(round(p_value, ",
+        "digits = 4), nsmall = 4, scientific = FALSE)}</b>. This value was ",
+        "computed using a Wilcoxon rank sum test. The median score of your ",
+        "genes is <b>{format(round(comparison_median, digits = 2), ",
+        "nsmall = 2, scientific = FALSE)}</b> compared to a median score of ",
+        "<b>{format(round(reference_median, digits = 2), nsmall = 2, ",
+        "scientific = FALSE)}</b> of the other genes."
+      ))
+    }
+  })
+
+  output$custom_genes_boxplot <- plotly::renderPlotly(
+    box_plot(ranked_data(), custom_genes())
+  )
 
   output$scores_plot <- plotly::renderPlotly(scores_plot(
     ranked_data(),

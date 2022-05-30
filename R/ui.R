@@ -20,12 +20,12 @@ ui <- function() {
           selectInput(
             "cross_sample_metric",
             verticalLayout(
-               strong("Expression across samples"),
-               paste0(
-                 "Proportion samples in which the gene is expressed above the ",
-                 "selected threshold. Select a method and a weight for the ",
-                 "final score."
-               )
+              strong("Expression across samples"),
+              paste0(
+                "Proportion samples in which the gene is expressed above the ",
+                "selected threshold. Select a method and a weight for the ",
+                "final score."
+              )
             ),
             list(
               "Above 95th percentile" = "above_95",
@@ -55,10 +55,20 @@ ui <- function() {
         ),
         mainPanel(
           width = 9,
-          h3("Distribution of scores"),
-          h4("Overview"),
+          h3("Overview"),
           plotly::plotlyOutput("overview_plot", height = "200px"),
-          h4("Focus on top genes"),
+          tabsetPanel(
+            id = "custom_genes_panel",
+            type = "hidden",
+            tabPanelBody("hide"),
+            tabPanelBody(
+              "show",
+              h3("Your genes"),
+              htmlOutput("custom_genes_synopsis"),
+              plotly::plotlyOutput("custom_genes_boxplot")
+            )
+          ),
+          h3("Focus on top genes"),
           div(paste0(
             "Click or drag within the figure to select genes of ",
             "interest."
