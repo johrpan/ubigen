@@ -90,6 +90,9 @@ ui <- function() {
         mainPanel(
           width = 9,
           h3("Distribution of scores"),
+          h4("Overview"),
+          plotly::plotlyOutput("overview_plot", height = "200px"),
+          h4("Focus on top genes"),
           div(paste0(
             "Click or drag within the figure to select genes of ",
             "interest."

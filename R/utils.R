@@ -1,5 +1,4 @@
-#' Various things that should be imported into the package namespace.
-#'
+# Various things that should be imported into the package namespace.
 #' @importFrom data.table :=
 #' @importFrom data.table .BY
 #' @importFrom data.table .EACHI

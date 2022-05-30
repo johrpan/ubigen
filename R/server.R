@@ -25,6 +25,7 @@ server <- function(input, output) {
     data
   })
 
+  output$overview_plot <- plotly::renderPlotly(overview_plot(ranked_data()))
   output$scores_plot <- plotly::renderPlotly(scores_plot(ranked_data()))
 
   output$selected_genes <- DT::renderDataTable({
@@ -38,50 +39,6 @@ server <- function(input, output) {
 
     genes_table(data)
   })
-}
-
-#' Create plot showing the distribution of scores using `plotly`.
-#'
-#' @param ranked_data Data on genes with precomputed ranks.
-#' @param ranks How may ranks the x-axis should include. If this parameter is
-#'   `NULL`, all ranks will be shown.
-#'
-#' @return A `plotly` figure for rendering.
-#' @noRd
-scores_plot <- function(ranked_data, ranks = 1000) {
-  data <- if (is.null(ranks)) {
-    ranked_data
-  } else {
-    ranked_data[1:ranks]
-  }
-
-  ranks_label <- if (is.null(ranks)) {
-    "Ranks"
-  } else {
-    glue::glue("Ranks (1 to {ranks})")
-  }
-
-  plotly::plot_ly() |>
-    plotly::add_markers(
-      data = data,
-      x = ~rank,
-      y = ~score,
-      text = ~hgnc_name,
-      customdata = ~percentile,
-      hovertemplate = paste0(
-        "<b>%{text}</b><br>",
-        "Rank: %{x}<br>",
-        "Score: %{y:.2}<br>",
-        "Percentile: %{customdata:.2%}",
-        "<extra></extra>"
-      )
-    ) |>
-    plotly::layout(
-      xaxis = list(title = ranks_label),
-      yaxis = list(title = "Score"),
-      clickmode = "event+select",
-      dragmode = "select"
-    )
 }
 
 #' Create a displayable data table from the gene results data.
