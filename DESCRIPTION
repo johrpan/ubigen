@@ -25,4 +25,5 @@ Imports:
     DT,
     plotly,
     glue,
-    shiny
+    shiny,
+    shinyvs

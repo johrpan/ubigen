@@ -17,8 +17,17 @@ server <- function(input, output) {
     data
   })
 
-  output$overview_plot <- plotly::renderPlotly(overview_plot(ranked_data()))
-  output$scores_plot <- plotly::renderPlotly(scores_plot(ranked_data()))
+  custom_genes <- gene_selector_server("custom_genes")
+
+  output$overview_plot <- plotly::renderPlotly(overview_plot(
+    ranked_data(),
+    highlighted_genes = custom_genes()
+  ))
+
+  output$scores_plot <- plotly::renderPlotly(scores_plot(
+    ranked_data(),
+    highlighted_genes = custom_genes()
+  ))
 
   output$selected_genes <- DT::renderDataTable({
     selected_points <- plotly::event_data("plotly_selected")

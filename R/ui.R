@@ -8,12 +8,15 @@ ui <- function() {
       primary = "#7d19bf"
     ),
     title = "Ubigen",
+    header = custom_css(),
     tabPanel(
       "Explore",
       sidebarLayout(
         sidebarPanel(
           width = 3,
-          h3("Features"),
+          h3("My genes"),
+          gene_selector_ui("custom_genes"),
+          h3("Scoring"),
           selectInput(
             "cross_sample_metric",
             verticalLayout(
