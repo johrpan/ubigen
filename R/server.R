@@ -76,16 +76,79 @@ server <- function(input, output, session) {
     highlighted_genes = custom_genes()
   ))
 
-  output$selected_genes <- DT::renderDataTable({
+  selected_genes <- reactive({
     selected_points <- plotly::event_data("plotly_selected")
+    ranked_data()[rank %in% selected_points$x]
+  })
 
-    data <- if (is.null(selected_points)) {
+  output$selected_genes <- DT::renderDataTable({
+    data <- if (length(selected_genes()) > 0) {
       ranked_data()
     } else {
-      ranked_data()[rank %in% selected_points$x]
+      selected_genes()
     }
 
     genes_table(data)
+  })
+
+  gsea_genes <- reactive({
+    sort(if (input$gsea_set == "top") {
+      ranked_data()[rank >= input$gsea_ranks, gene]
+    } else if (input$gsea_set == "selected") {
+      selected_genes()[, gene]
+    } else {
+      custom_genes()
+    })
+  })
+
+  gsea_result <- reactive({
+    withProgress(
+      message = "Querying g:Profiler",
+      value = 0.0,
+      { # nolint
+        setProgress(0.2)
+        gprofiler2::gost(gsea_genes())
+      }
+    )
+  }) |>
+    bindCache(gsea_genes()) |>
+    bindEvent(input$gsea_run, ignoreNULL = FALSE)
+
+  output$gsea_plot <- plotly::renderPlotly({
+    gprofiler2::gostplot(gsea_result(), interactive = TRUE)
+  })
+
+  output$gsea_details <- DT::renderDT({
+    data <- data.table(gsea_result()$result)
+    setorder(data, p_value)
+
+    data[, total_ratio := term_size / effective_domain_size]
+    data[, query_ratio := intersection_size / query_size]
+
+    data <- data[, .(
+      source,
+      term_name,
+      total_ratio,
+      query_ratio,
+      p_value
+    )]
+
+    DT::datatable(
+      data,
+      rownames = FALSE,
+      colnames = c(
+        "Source",
+        "Term",
+        "Total ratio",
+        "Query ratio",
+        "p-value"
+      ),
+      options = list(
+        pageLength = 25
+      )
+    ) |>
+      DT::formatRound("p_value", digits = 4) |>
+      DT::formatPercentage(c("total_ratio", "query_ratio"), digits = 1)
   })
 }
 

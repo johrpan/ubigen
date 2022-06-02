@@ -2,6 +2,13 @@
 #' @noRd
 custom_css <- function() {
   tags$head(
-    tags$style(".nav-hidden { height: 0 }")
+    tags$style(HTML(
+      ".nav-hidden { height: 0 }",
+      ".flow-layout > div {",
+      "display: inline-block;",
+      "vertical-align: top;",
+      "margin-right: 12px;",
+      "}"
+    ))
   )
 }

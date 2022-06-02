@@ -25,5 +25,6 @@ Imports:
     DT,
     plotly,
     glue,
+    gprofiler2,
     shiny,
     shinyvs

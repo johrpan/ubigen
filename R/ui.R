@@ -81,6 +81,42 @@ ui <- function() {
               )),
               div(class = "p-1"),
               DT::dataTableOutput("selected_genes")
+            ),
+            tabPanel(
+              "GSEA",
+              value = "gsea",
+              div(
+                class = "flow-layout",
+                selectInput(
+                  "gsea_set",
+                  label = NULL,
+                  list(
+                    "Top genes" = "top",
+                    "Selected genes" = "selected",
+                    "Your genes" = "custom"
+                  )
+                ),
+                conditionalPanel(
+                  "input.gsea_set == 'top'",
+                  sliderInput(
+                    "gsea_ranks",
+                    label = NULL,
+                    min = 10,
+                    max = 1000,
+                    value = 100,
+                    step = 10,
+                    ticks = FALSE
+                  )
+                ),
+                actionButton(
+                  "gsea_run",
+                  "Update analysis",
+                  class = "btn-primary"
+                )
+              ),
+              plotly::plotlyOutput("gsea_plot"),
+              div(class = "p-2"),
+              DT::dataTableOutput("gsea_details")
             )
           )
         )
