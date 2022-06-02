@@ -27,4 +27,4 @@ Imports:
     glue,
     gprofiler2,
     shiny,
-    shinyvs
+    shinyWidgets

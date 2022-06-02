@@ -31,7 +31,7 @@ gene_selector_ui <- function(id) {
       type = "hidden",
       tabPanelBody(
         "list",
-        shinyvs::virtualSelectInput(
+        shinyWidgets::virtualSelectInput(
           NS(id, "selected_genes"),
           label = NULL,
           choices = gene_choices,
