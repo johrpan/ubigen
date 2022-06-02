@@ -30,9 +30,9 @@ server <- function(input, output, session) {
   observeEvent(custom_genes(),
     { # nolint
       if (length(custom_genes()) > 0) {
-        updateTabsetPanel(session, "custom_genes_panel", selected = "show")
-      } else {
-        updateTabsetPanel(session, "custom_genes_panel", selected = "hide")
+        updateTabsetPanel(session, "results_panel", selected = "custom_genes")
+      } else if (input$results_panel == "custom_genes") {
+        updateTabsetPanel(session, "results_panel", selected = "top_genes")
       }
     },
     ignoreNULL = FALSE

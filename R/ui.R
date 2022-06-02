@@ -55,32 +55,33 @@ ui <- function() {
         ),
         mainPanel(
           width = 9,
-          h3("Overview"),
           plotly::plotlyOutput("overview_plot", height = "200px"),
           tabsetPanel(
-            id = "custom_genes_panel",
-            type = "hidden",
-            tabPanelBody("hide"),
-            tabPanelBody(
-              "show",
-              h3("Your genes"),
+            id = "results_panel",
+            selected = "top_genes",
+            header = div(class = "p-2"),
+            tabPanel(
+              "Your genes",
+              value = "custom_genes",
               htmlOutput("custom_genes_synopsis"),
               plotly::plotlyOutput("custom_genes_boxplot")
+            ),
+            tabPanel(
+              "Top genes",
+              value = "top_genes",
+              div(paste0(
+                "Hover over the markers to see details on each gene. Click or ",
+                "drag within the figure to select genes of interest."
+              )),
+              plotly::plotlyOutput("scores_plot"),
+              div(paste0(
+                "Click on gene names to view them using the Ensembl genome ",
+                "browser."
+              )),
+              div(class = "p-1"),
+              DT::dataTableOutput("selected_genes")
             )
-          ),
-          h3("Focus on top genes"),
-          div(paste0(
-            "Click or drag within the figure to select genes of ",
-            "interest."
-          )),
-          plotly::plotlyOutput("scores_plot"),
-          h3("Detailed ranking"),
-          div(paste0(
-            "Click on gene names to view them using the Ensembl ",
-            "genome browser."
-          )),
-          div(class = "p-1"),
-          DT::dataTableOutput("selected_genes")
+          )
         )
       )
     ),
