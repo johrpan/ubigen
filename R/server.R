@@ -95,8 +95,8 @@ genes_table <- function(data) {
   data <- data[, .(
     "Gene" = glue::glue_data(
       data,
-      "<a href=\"https://www.ensembl.org/Homo_sapiens/Gene/Summary",
-      "?db=core;g={gene}\" target=\"_blank\">{hgnc_name}</a>"
+      "<a href=\"https://gtexportal.org/home/gene/{hgnc_name}\" ",
+      "target=\"_blank\">{hgnc_name}</a>"
     ),
     "Rank" = rank,
     "Percentile" = percentile,

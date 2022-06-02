@@ -75,8 +75,9 @@ ui <- function() {
               )),
               plotly::plotlyOutput("scores_plot"),
               div(paste0(
-                "Click on gene names to view them using the Ensembl genome ",
-                "browser."
+                "Click on gene names to view them using the GTEx website. ",
+                "There, you can see the tissue specific expression behavior ",
+                "derived from the samples that this analysis is also based on."
               )),
               div(class = "p-1"),
               DT::dataTableOutput("selected_genes")
