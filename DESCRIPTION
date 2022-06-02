@@ -1,5 +1,5 @@
 Package: ubigen
-Title: Graphical Interface for Finding Patterns in Gene Expression
+Title: Graphical Interface for Finding Ubiquitous Genes
 Version: 0.0.0.9000
 Authors@R:
     person(
@@ -11,7 +11,7 @@ Authors@R:
     )
 Description: This package contains precomputed data including comparisons in
     gene expression. It provides a graphical interface to analyze and visualize
-    those data.
+    those data to rank genes based on how ubiquitously expressed they are.
 License: AGPL (>= 3)
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
