@@ -42,6 +42,17 @@ ui <- function() {
             value = 0.5
           ),
           sliderInput(
+            "mean_expression",
+            verticalLayout(
+              strong("Mean Expression"),
+              "Mean expression of the gene across all samples."
+            ),
+            min = -1.0,
+            max = 1.0,
+            step = 0.01,
+            value = 0.25
+          ),
+          sliderInput(
             "sd_expression",
             verticalLayout(
               strong("Standard deviation"),
@@ -50,7 +61,7 @@ ui <- function() {
             min = -1.0,
             max = 1.0,
             step = 0.01,
-            value = -0.5
+            value = -0.25
           )
         ),
         mainPanel(
