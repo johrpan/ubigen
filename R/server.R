@@ -11,7 +11,11 @@ server <- function(input, output, session) {
         total_weight]
 
     # Normalize scores to be between 0.0 and 1.0.
-    data[, score := (score - min(score)) / (max(score) - min(score))]
+    data[, score := (score - min(score, na.rm = TRUE)) /
+      (max(score, na.rm = TRUE) - min(score, na.rm = TRUE))]
+
+    # These are genes that are not expressed at all.
+    data[is.na(score), score := 0.0]
 
     data.table::setorder(data, -score)
     data[, rank := .I]
