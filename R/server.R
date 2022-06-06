@@ -53,24 +53,39 @@ server <- function(input, output, session) {
       reference <- ranked_data()[!gene %chin% comparison_gene_ids, score]
       comparison <- ranked_data()[gene %chin% comparison_gene_ids, score]
 
-      p_value <- stats::wilcox.test(
+      reference_median <- format(
+        round(stats::median(reference), digits = 3),
+        nsmall = 3
+      )
+
+      comparison_median <- format(
+        round(stats::median(comparison), digits = 3),
+        nsmall = 3
+      )
+
+      test_result <- stats::wilcox.test(
         x = comparison,
         y = reference,
-        alternative = "greater"
-      )$p.value
+        conf.int = TRUE
+      )
 
-      reference_median <- stats::median(reference)
-      comparison_median <- stats::median(comparison)
+      p_value <- format(
+        round(test_result$p.value, digits = 4),
+        nsmall = 4,
+        scientific = FALSE
+      )
+
+      lower <- format(round(test_result$conf.int[1], digits = 3), nsmall = 3)
+      upper <- format(round(test_result$conf.int[2], digits = 3), nsmall = 3)
 
       HTML(glue::glue(
         "The p-value for the alternative hypothesis that your genes have ",
-        "higher scores than other genes is <b>{format(round(p_value, ",
-        "digits = 4), nsmall = 4, scientific = FALSE)}</b>. This value was ",
-        "computed using a Wilcoxon rank sum test. The median score of your ",
-        "genes is <b>{format(round(comparison_median, digits = 2), ",
-        "nsmall = 2, scientific = FALSE)}</b> compared to a median score of ",
-        "<b>{format(round(reference_median, digits = 2), nsmall = 2, ",
-        "scientific = FALSE)}</b> of the other genes."
+        "different scores than other genes is <b>{p_value}</b>. This value ",
+        "was computed using a Wilcoxon rank sum test. Based on a 95% ",
+        "confidence, the difference in scores is between <b>{lower}</b> and ",
+        "<b>{upper}</b>. The median score of your genes is ",
+        "<b>{comparison_median}</b> compared to a median score of ",
+        "<b>{reference_median}</b> of the other genes."
       ))
     }
   })
