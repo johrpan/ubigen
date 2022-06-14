@@ -28,7 +28,7 @@ server <- function(input, output, session) {
     data
   })
 
-  custom_genes <- gene_selector_server("custom_genes")
+  custom_genes <- gene_selector_server("custom_genes") |> debounce(500)
 
   output$overview_plot <- plotly::renderPlotly(overview_plot(
     ranked_data(),
