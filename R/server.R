@@ -105,10 +105,10 @@ server <- function(input, output, session) {
   })
 
   output$selected_genes <- DT::renderDataTable({
-    data <- if (length(selected_genes()) > 0) {
-      ranked_data()
-    } else {
+    data <- if (nrow(selected_genes()) > 0) {
       selected_genes()
+    } else {
+      ranked_data()
     }
 
     genes_table(data)
