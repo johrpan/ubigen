@@ -2,30 +2,12 @@
 #' @noRd
 server <- function(input, output, session) {
   ranked_data <- reactive({
-    total_weight <- abs(input$cross_sample_weight) +
-      abs(input$mean_expression) +
-      abs(input$sd_expression)
-
-    data <- data.table::copy(ubigen::genes)
-
-    data[, score :=
-      (input$cross_sample_weight * get(input$cross_sample_metric) +
-        input$mean_expression * mean_expression_normalized +
-        input$sd_expression * sd_expression_normalized) /
-        total_weight]
-
-    # Normalize scores to be between 0.0 and 1.0.
-    data[, score := (score - min(score, na.rm = TRUE)) /
-      (max(score, na.rm = TRUE) - min(score, na.rm = TRUE))]
-
-    # These are genes that are not expressed at all.
-    data[is.na(score), score := 0.0]
-
-    data.table::setorder(data, -score)
-    data[, rank := .I]
-    data[, percentile := 1 - rank / max(rank)]
-
-    data
+    rank_genes(
+      cross_sample_metric = input$cross_sample_metric,
+      cross_sample_weight = input$cross_sample_weight,
+      mean_expression_weight = input$mean_expression,
+      sd_expression_weight = input$sd_expression
+    )
   })
 
   custom_genes <- gene_selector_server("custom_genes") |> debounce(500)
