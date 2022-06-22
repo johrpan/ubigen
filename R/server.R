@@ -76,6 +76,10 @@ server <- function(input, output, session) {
     box_plot(ranked_data(), custom_genes())
   )
 
+  output$custom_genes_details <- DT::renderDT({
+    genes_table(ranked_data()[gene %chin% custom_genes()])
+  })
+
   output$scores_plot <- plotly::renderPlotly(scores_plot(
     ranked_data(),
     highlighted_genes = custom_genes()

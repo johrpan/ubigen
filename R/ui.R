@@ -75,7 +75,9 @@ ui <- function() {
               "Your genes",
               value = "custom_genes",
               htmlOutput("custom_genes_synopsis"),
-              plotly::plotlyOutput("custom_genes_boxplot")
+              plotly::plotlyOutput("custom_genes_boxplot"),
+              div(class = "p-1"),
+              DT::dataTableOutput("custom_genes_details")
             ),
             tabPanel(
               "Top genes",
