@@ -20,23 +20,35 @@ result <- if (file.exists(file_path)) {
   data[, bucket := ceiling(rank / bucket_size)]
 
   result <- data[, .(analysis = list(gprofiler2::gost(gene))), by = bucket]
-  result[, count := nrow(analysis[[1]]$result), by = bucket]
-  result[is.na(count), count := 0]
-
   saveRDS(result, file = file_path)
 
   result
 }
 
+result[, result := lapply(analysis, function (a) a$result)]
+result <- result[, rbindlist(result), by = bucket]
+
+result <- result[source %chin% c("GO:CC", "GO:BP", "GO:MF")]
+result[source == "GO:CC", label := "Cellular component"]
+result[source == "GO:BP", label := "Biological pathway"]
+result[source == "GO:MF", label := "Molecular function"]
+
+data <- result[,
+  .(count = .N, label = unique(label)),
+  by = c("bucket", "source")
+]
+
 fig <- plotly::plot_ly() |>
   plotly::add_bars(
-    data = result,
+    data = data,
     x = ~bucket,
-    y = ~count
+    y = ~count,
+    color = ~label
   ) |>
   plotly::layout(
     xaxis = list(title = "Bucket of genes (n = 500)"),
-    yaxis = list(title = "Number of associated terms")
+    yaxis = list(title = "Number of associated terms"),
+    barmode = "stack"
   )
 
 plotly::save_image(fig, image_path, width = 1200, height = 800)
