@@ -28,27 +28,20 @@ result <- if (file.exists(file_path)) {
 result[, result := lapply(analysis, function (a) a$result)]
 result <- result[, rbindlist(result), by = bucket]
 
-result <- result[source %chin% c("GO:CC", "GO:BP", "GO:MF")]
-result[source == "GO:CC", label := "Cellular component"]
-result[source == "GO:BP", label := "Biological pathway"]
-result[source == "GO:MF", label := "Molecular function"]
-
-data <- result[,
-  .(count = .N, label = unique(label)),
-  by = c("bucket", "source")
-]
+data <- result[, .(count = .N), by = c("bucket", "source")]
 
 fig <- plotly::plot_ly() |>
   plotly::add_bars(
     data = data,
     x = ~bucket,
     y = ~count,
-    color = ~label
+    color = ~source
   ) |>
   plotly::layout(
     xaxis = list(title = "Bucket of genes (n = 500)"),
     yaxis = list(title = "Number of associated terms"),
-    barmode = "stack"
+    barmode = "stack",
+    legend = list(title = list(text = "<b>Source of term</b>"))
   )
 
 plotly::save_image(fig, image_path, width = 1200, height = 800)
