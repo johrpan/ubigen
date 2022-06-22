@@ -15,20 +15,38 @@ overview_plot <- function(ranked_data,
         nrow(ranked_data),
         sample_proportion * nrow(ranked_data)
       )],
-      x = ~rank,
+      x = ~percentile,
       y = ~score,
       hoverinfo = "skip"
     ) |>
     plotly::layout(
-      xaxis = list(title = "Ranks"),
-      yaxis = list(title = "Score")
+      xaxis = list(
+        title = "Percentile",
+        autorange = "reversed",
+        tickformat = ".1%"
+      ),
+      yaxis = list(title = "Score"),
+      shapes = list(
+        vline(0.95),
+        vline(0.75),
+        vline(0.50),
+        vline(0.25),
+        vline(0.05)
+      ),
+      annotations = list(
+        vlineannotation(0.95),
+        vlineannotation(0.75),
+        vlineannotation(0.50),
+        vlineannotation(0.25),
+        vlineannotation(0.05)
+      )
     )
 
   if (length(highlighted_genes) > 0) {
     figure <- figure |>
       plotly::add_markers(
         data = ranked_data[gene %chin% highlighted_genes],
-        x = ~rank,
+        x = ~percentile,
         y = ~score,
         text = ~ glue::glue(
           "<b>{hgnc_name}</b><br>",
@@ -120,4 +138,40 @@ scores_plot <- function(ranked_data, highlighted_genes = NULL, ranks = 1000) {
       clickmode = "event+select",
       dragmode = "select"
     )
+}
+
+#' Helper function for creating a vertical line for plotly.
+#' @noRd
+vline <- function(x) {
+  list(
+    type = "line",
+    y0 = 0,
+    y1 = 1,
+    yref = "paper",
+    x0 = x,
+    x1 = x,
+    line = list(
+      color = "#00000080",
+      opacity = 0.5,
+      dash = "dot"
+    )
+  )
+}
+
+#' Helper function for creating annotations for lines created using [vline()].
+#' @noRd
+vlineannotation <- function(x) {
+  list(
+    text = glue::glue("{round(x * 100)}%"),
+    showarrow = FALSE,
+    yref = "paper",
+    x = x,
+    y = 1,
+    xanchor = "left",
+    xshift = 4,
+    align = "left",
+    font = list(
+      color = "#00000080"
+    )
+  )
 }
