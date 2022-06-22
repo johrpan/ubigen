@@ -141,10 +141,33 @@ ui <- function() {
         )
       ),
       tabPanel(
-        title = "Help"
-      ),
-      tabPanel(
-        title = "Publication"
+        title = "Additional information",
+        div(
+          class = "container",
+          h2("Number of interesting genes along the ranking"),
+          p(HTML(paste0(
+            "The notion of ubiquitous genes or housekeeping genes implies ",
+            "some kind of enrichment of important genes. Within groups of ",
+            "genes with certain biological associations, these genes should ",
+            "be overrepresented. We use GeneOntology terms as well as some ",
+            "other gene set sources to represent this concept. The following ",
+            "plot shows the number of associated terms for a non-overlapping ",
+            "sliding window of 500 genes along the ranking of ubiquity using ",
+            "our default parameters. The terms have been obtained using a ",
+            "gene set enrichment analysis with the tool ",
+            "<a href=\"https://biit.cs.ut.ee/gprofiler/gost\" ",
+            "target=\"_blank\">g:Profiler</a>. We observe that the most ",
+            "ubiquitous genes have many more known biological implications ",
+            "than any other bucket of genes. The genes of average ubiquity ",
+            "have almost no associations with GeneOntology terms. The number ",
+            "of associations rises again for the least ubiquitous genes."
+          ))),
+          p(HTML(paste0(
+            "Note: Click on the legend items to toggle single sources. A ",
+            "double-click will isolate a single source of interest."
+          ))),
+          plotly::plotlyOutput("gsea_plot_ranking", height = "600px")
+        )
       )
     )
   )

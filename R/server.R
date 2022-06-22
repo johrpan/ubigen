@@ -159,6 +159,8 @@ server <- function(input, output, session) {
       DT::formatRound("p_value", digits = 4) |>
       DT::formatPercentage(c("total_ratio", "query_ratio"), digits = 1)
   })
+
+  output$gsea_plot_ranking <- plotly::renderPlotly(gsea_plot_ranking)
 }
 
 #' Create a displayable data table from the gene results data.

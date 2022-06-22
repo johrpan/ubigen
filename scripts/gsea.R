@@ -45,3 +45,6 @@ fig <- plotly::plot_ly() |>
   )
 
 plotly::save_image(fig, image_path, width = 1200, height = 800)
+
+gsea_plot_ranking <- fig
+usethis::use_data(gsea_plot_ranking, internal = TRUE, overwrite = TRUE)
