@@ -21,9 +21,9 @@ rank_genes <- function(cross_sample_metric = "above_95",
                        cross_sample_weight = 0.5,
                        mean_expression_weight = 0.25,
                        sd_expression_weight = -0.25) {
-  total_weight <- cross_sample_weight +
-    mean_expression_weight +
-    sd_expression_weight
+  total_weight <- abs(cross_sample_weight) +
+    abs(mean_expression_weight) +
+    abs(sd_expression_weight)
 
   data <- copy(ubigen::genes)
 
