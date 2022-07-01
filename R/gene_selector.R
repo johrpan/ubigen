@@ -56,6 +56,20 @@ gene_selector_ui <- function(id) {
           height = "250px"
         )
       )
+    ),
+    tabsetPanel(
+      id = NS(id, "max_genes_panel"),
+      type = "hidden",
+      tabPanelBody("hide"),
+      tabPanelBody(
+        "show",
+        HTML(paste0(
+          "You have entered more than 100 genes, which is the maximum number ",
+          "of genes supported in order not to overload the available ",
+          "resources. To assess your gene set anyway, a random sample of 100 ",
+          "genes was taken automatically."
+        ))
+      )
     )
   )
 }
@@ -89,9 +103,21 @@ gene_selector_server <- function(id) {
         ubigen::genes[gene %chin% inputs, gene]
       }
 
-      if (length(gene_ids > 100)) {
-        gene_ids[seq_len(100)]
+      if (length(gene_ids) > 100) {
+        updateTabsetPanel(
+          session,
+          "max_genes_panel",
+          selected = "show"
+        )
+
+        sample(gene_ids, 100)
       } else {
+        updateTabsetPanel(
+          session,
+          "max_genes_panel",
+          selected = "hide"
+        )
+
         gene_ids
       }
     })
