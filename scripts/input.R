@@ -31,8 +31,8 @@ fwrite(
   file = here(
     "scripts",
     "input",
-    "data_wide_samples.csv"
+    "data_wide_samples.csv.gz"
   )
 )
 
-fwrite(data_long, file = here("scripts", "input", "data_long.csv"))
+fwrite(data_long, file = here("scripts", "input", "data_long.csv.gz"))
