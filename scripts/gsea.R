@@ -25,20 +25,26 @@ result <- if (file.exists(file_path)) {
   result
 }
 
-result[, result := lapply(analysis, function (a) a$result)]
+result[, result := lapply(analysis, function(a) a$result)]
 result <- result[, rbindlist(result), by = bucket]
 
 data <- result[, .(count = .N), by = c("bucket", "source")]
+data[, total := sum(count), by = bucket]
+smooth_model <- loess(total ~ bucket, data, span = 0.25)
 
-fig <- plotly::plot_ly() |>
+fig <- plotly::plot_ly(data) |>
   plotly::add_bars(
-    data = data,
     x = ~bucket,
     y = ~count,
     color = ~source
   ) |>
+  plotly::add_lines(
+    x = ~bucket,
+    y = predict(smooth_model),
+    name = "All (smoothed)"
+  ) |>
   plotly::layout(
-    xaxis = list(title = "Bucket of genes (n = 500)"),
+    xaxis = list(title = glue::glue("Bucket of genes (n = {bucket_size})")),
     yaxis = list(title = "Number of associated terms"),
     barmode = "stack",
     legend = list(title = list(text = "<b>Source of term</b>"))
