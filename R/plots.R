@@ -22,7 +22,6 @@ overview_plot <- function(ranked_data,
     plotly::layout(
       xaxis = list(
         title = "Percentile",
-        autorange = "reversed",
         tickformat = ".1%"
       ),
       yaxis = list(title = "Score"),
@@ -133,7 +132,10 @@ scores_plot <- function(ranked_data, highlighted_genes = NULL, ranks = 1000) {
       showlegend = FALSE
     ) |>
     plotly::layout(
-      xaxis = list(title = ranks_label),
+      xaxis = list(
+        title = ranks_label,
+        autorange = "reversed"
+      ),
       yaxis = list(title = "Score"),
       clickmode = "event+select",
       dragmode = "select"
