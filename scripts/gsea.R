@@ -30,7 +30,10 @@ result <- result[, rbindlist(result), by = bucket]
 
 data <- result[, .(count = .N), by = c("bucket", "source")]
 data[, total := sum(count), by = bucket]
-smooth_model <- loess(total ~ bucket, data, span = 0.25)
+
+smooth_model <- loess(total ~ bucket, data, span = 0.3)
+bucket_smoothed <- seq(1, nrow(data), 0.1)
+total_smoothed <- predict(smooth_model, bucket_smoothed)
 
 fig <- plotly::plot_ly(data) |>
   plotly::add_bars(
@@ -39,8 +42,8 @@ fig <- plotly::plot_ly(data) |>
     color = ~source
   ) |>
   plotly::add_lines(
-    x = ~bucket,
-    y = predict(smooth_model),
+    x = ~bucket_smoothed,
+    y = ~total_smoothed,
     name = "All (smoothed)"
   ) |>
   plotly::layout(
