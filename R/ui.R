@@ -130,6 +130,12 @@ ui <- function() {
                     "gsea_run",
                     "Update analysis",
                     class = "btn-primary"
+                  ),
+                  a(
+                    "Powered by g:Profiler",
+                    href = "https://biit.cs.ut.ee/gprofiler/gost",
+                    target = "_blank",
+                    style = "margin-left: 16px"
                   )
                 ),
                 plotly::plotlyOutput("gsea_plot"),
