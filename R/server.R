@@ -134,12 +134,14 @@ server <- function(input, output, session) {
 
     data[, total_ratio := term_size / effective_domain_size]
     data[, query_ratio := intersection_size / query_size]
+    data[, increase := (query_ratio - total_ratio) / total_ratio]
 
     data <- data[, .(
       source,
       term_name,
       total_ratio,
       query_ratio,
+      increase,
       p_value
     )]
 
@@ -151,6 +153,7 @@ server <- function(input, output, session) {
         "Term",
         "Total ratio",
         "Query ratio",
+        "Increase",
         "p-value"
       ),
       options = list(
@@ -158,7 +161,10 @@ server <- function(input, output, session) {
       )
     ) |>
       DT::formatRound("p_value", digits = 4) |>
-      DT::formatPercentage(c("total_ratio", "query_ratio"), digits = 1)
+      DT::formatPercentage(
+        c("total_ratio", "query_ratio", "increase"),
+        digits = 2
+      )
   })
 
   output$gsea_plot_ranking <- plotly::renderPlotly(gsea_plot_ranking)
