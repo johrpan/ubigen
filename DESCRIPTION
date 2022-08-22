@@ -26,5 +26,6 @@ Imports:
     plotly,
     glue,
     gprofiler2,
+    rclipboard,
     shiny,
     shinyWidgets

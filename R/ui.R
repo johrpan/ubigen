@@ -3,6 +3,7 @@
 ui <- function() {
   div(
     custom_css(),
+    rclipboard::rclipboardSetup(),
     navbarPage(
       theme = bslib::bs_theme(
         version = 5,
@@ -81,7 +82,7 @@ ui <- function() {
                 htmlOutput("custom_genes_synopsis"),
                 plotly::plotlyOutput("custom_genes_boxplot"),
                 div(class = "p-1"),
-                DT::dataTableOutput("custom_genes_details")
+                genes_table_ui("custom_genes")
               ),
               tabPanel(
                 "Top genes",
@@ -91,6 +92,7 @@ ui <- function() {
                   "or drag within the figure to select genes of interest."
                 )),
                 plotly::plotlyOutput("scores_plot"),
+                div(class = "p-1"),
                 div(paste0(
                   "Click on gene names to view them using the GTEx website. ",
                   "There, you can see the tissue specific expression behavior ",
@@ -98,7 +100,7 @@ ui <- function() {
                   "on."
                 )),
                 div(class = "p-1"),
-                DT::dataTableOutput("selected_genes")
+                genes_table_ui("selected_genes")
               ),
               tabPanel(
                 "GSEA",

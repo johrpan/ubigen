@@ -77,9 +77,9 @@ server <- function(input, output, session) {
     box_plot(ranked_data(), custom_genes())
   )
 
-  output$custom_genes_details <- DT::renderDT({
-    genes_table(ranked_data()[gene %chin% custom_genes()])
-  })
+  genes_table_server("custom_genes", reactive({
+    ranked_data()[gene %chin% custom_genes()]
+  }))
 
   output$scores_plot <- plotly::renderPlotly(scores_plot(
     ranked_data(),
@@ -91,15 +91,13 @@ server <- function(input, output, session) {
     ranked_data()[rank %in% selected_points$x]
   })
 
-  output$selected_genes <- DT::renderDataTable({
-    data <- if (nrow(selected_genes()) > 0) {
+  genes_table_server("selected_genes", reactive({
+    if (nrow(selected_genes()) > 0) {
       selected_genes()
     } else {
       ranked_data()
     }
-
-    genes_table(data)
-  })
+  }))
 
   gsea_genes <- reactive({
     sort(if (input$gsea_set == "top") {
@@ -168,62 +166,4 @@ server <- function(input, output, session) {
   })
 
   output$gsea_plot_ranking <- plotly::renderPlotly(gsea_plot_ranking)
-}
-
-#' Create a displayable data table from the gene results data.
-#' @noRd
-genes_table <- function(data) {
-  data <- data[, .(
-    "Gene" = glue::glue_data(
-      data,
-      "<a href=\"https://gtexportal.org/home/gene/{hgnc_name}\" ",
-      "target=\"_blank\">{hgnc_name}</a>"
-    ),
-    "Rank" = rank,
-    "Percentile" = percentile,
-    "Score" = score,
-    "Median" = median_expression,
-    "Mean" = mean_expression,
-    "Standard deviation" = sd_expression,
-    "Expressed" = above_zero,
-    "Above median" = above_median,
-    "Above 95%" = above_95
-  )]
-
-  DT::datatable(
-    data,
-    options = list(
-      buttons = list(
-        list(
-          extend = "copy",
-          text = "Copy to clipboard"
-        ),
-        list(
-          extend = "csv",
-          text = "Download CSV"
-        )
-      ),
-      dom = "fBrtip",
-      pageLength = 100
-    ),
-    rownames = FALSE,
-    escape = FALSE,
-    selection = "none",
-    extensions = "Buttons"
-  ) |>
-    DT::formatPercentage(
-      c(
-        "Percentile",
-        "Score",
-        "Expressed",
-        "Above median",
-        "Above 95%"
-      ),
-      digits = 2,
-    ) |>
-    DT::formatRound(c(
-      "Median",
-      "Mean",
-      "Standard deviation"
-    ))
 }
