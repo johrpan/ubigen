@@ -8,9 +8,6 @@ i_am("scripts/input.R")
 
 data <- fread(here("scripts", "output", "results.csv"))
 
-# Keep only the actual Ensembl ID for each gene.
-data[, gene := stringr::str_split(gene, "\\.") |> purrr::map_chr(1)]
-
 data[, score := 0.5 * above_95 +
   0.25 * mean_expression_normalized +
   -0.25 * sd_expression_normalized]

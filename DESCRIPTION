@@ -29,3 +29,8 @@ Imports:
     rclipboard,
     shiny,
     shinyWidgets
+Suggests:
+    biomaRt,
+    edgeR,
+    purrr,
+    stringr
