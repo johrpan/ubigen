@@ -70,21 +70,24 @@ getpm <- DGEList(counts = read_counts) |>
 data_wide_samples <- data.table(getpm, keep.rownames = "gene")
 data_wide_samples[, hgnc_symbol := hgnc_symbols]
 
+# Create lookup tables for genes and samples.
+
+genes <- data_wide_samples[, .(id = .I, gene, hgnc_symbol)]
+fwrite(genes, file = here("scripts", "input", "genes.csv"))
+
+sample_names <- colnames(data_wide_samples[, !c("gene", "hgnc_symbol")])
+samples <- data.table(id = seq_along(sample_names), sample = sample_names)
+fwrite(samples, file = here("scripts", "input", "samples.csv"))
+
+data_wide_samples[, `:=`(gene = .I, hgnc_symbol = NULL)]
+colnames(data_wide_samples) <- c("gene", seq_along(sample_names))
+
 data_long <- melt(
   data_wide_samples,
-  id.vars = c("gene", "hgnc_symbol"),
+  id.vars = "gene",
   variable.name = "sample",
   value.name = "expression",
   variable.factor = FALSE
 )
 
-fwrite(
-  data_wide_samples,
-  file = here(
-    "scripts",
-    "input",
-    "data_wide_samples.csv.gz"
-  )
-)
-
-fwrite(data_long, file = here("scripts", "input", "data_long.csv.gz"))
+fwrite(data_long, file = here("scripts", "input", "data_long.csv"))

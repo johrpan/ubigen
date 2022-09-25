@@ -6,6 +6,7 @@ library(here)
 
 i_am("scripts/input.R")
 
+genes <- fread(here("scripts", "input", "genes.csv"))
 data <- fread(here("scripts", "output", "results.csv"))
 
 data[, score := 0.5 * above_95 +
@@ -22,17 +23,24 @@ data[is.na(score), score := 0.0]
 
 setorder(data, -score)
 
+# Reintroduce gene IDs and HGNC symbols.
+
+setnames(data, "gene", "id")
+
+data <- merge(
+  data,
+  genes,
+  by = "id",
+  all.x = TRUE,
+  sort = FALSE
+)
+
+setnames(data, "hgnc_symbol", "hgnc_name")
+data[, id := NULL]
+
 # Remove duplicates. This will keep the best row for each duplicated gene.
 data <- unique(data, by = "gene")
 
-data[, `:=`(
-  hgnc_name = gprofiler2::gconvert(
-    gene,
-    target = "HGNC",
-    mthreshold = 1,
-    filter_na = FALSE
-  )$target,
-  rank = .I
-)]
+data[, rank := .I]
 
 fwrite(data, file = here("scripts", "output", "genes.csv"))

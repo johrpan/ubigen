@@ -7,7 +7,7 @@ library(here)
 
 i_am("scripts/input.R")
 
-data <- fread(here("scripts", "input", "data_long.csv.gz"))
+data <- fread(here("scripts", "input", "data_long.csv"))
 
 data[, `:=`(
     expression_median = median(expression),
