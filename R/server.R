@@ -5,8 +5,10 @@ server <- function(input, output, session) {
     rank_genes(
       cross_sample_metric = input$cross_sample_metric,
       cross_sample_weight = input$cross_sample_weight,
-      mean_expression_weight = input$mean_expression,
-      sd_expression_weight = input$sd_expression
+      level_metric = input$level_metric,
+      level_weight = input$level_weight,
+      variation_metric = input$variation_metric,
+      variation_weight = input$variation_weight
     )
   })
 

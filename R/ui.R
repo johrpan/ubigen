@@ -43,26 +43,45 @@ ui <- function() {
               step = 0.01,
               value = 0.5
             ),
-            sliderInput(
-              "mean_expression",
+            selectInput(
+              "level_metric",
               verticalLayout(
-                strong("Mean Expression"),
-                "Mean expression of the gene across all samples."
+                strong("Expression level"),
+                "Typical expression level of the gene across all samples."
               ),
+              list(
+                "Median expression" = "median_expression_normalized",
+                "Mean expression" = "mean_expression_normalized"
+              )
+            ),
+            sliderInput(
+              "level_weight",
+              label = NULL,
               min = -1.0,
               max = 1.0,
               step = 0.01,
               value = 0.25
             ),
-            sliderInput(
-              "sd_expression",
+            selectInput(
+              "variation_metric",
               verticalLayout(
-                strong("Standard deviation"),
+                strong("Expression variation"),
                 paste0(
-                  "Standard deviation of the gene's expression across all ",
+                  "Measure of the variation of the gene's expression between ",
                   "samples."
                 )
               ),
+              list(
+                "Quantile based coefficient of variation" =
+                  "qcv_expression_normalized",
+                "Interquartile range" = "iqr_expression_normalized",
+                "Coefficient of variation" = "cv_expression_normalized",
+                "Standard deviation" = "sd_expression_normalized"
+              )
+            ),
+            sliderInput(
+              "variation_weight",
+              label = NULL,
               min = -1.0,
               max = 1.0,
               step = 0.01,

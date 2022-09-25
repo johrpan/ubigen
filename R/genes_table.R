@@ -71,14 +71,17 @@ genes_table_server <- function(id, data) {
             "target=\"_blank\">{hgnc_name}</a>"
           ),
           "Rank" = rank,
-          "Percentile" = percentile,
+          "%" = percentile,
           "Score" = score,
           "Median" = median_expression,
+          "IQR" = iqr_expression,
+          "QCV" = qcv_expression,
           "Mean" = mean_expression,
-          "Standard deviation" = sd_expression,
-          "Expressed" = above_zero,
-          "Above median" = above_median,
-          "Above 95%" = above_95
+          "SD" = sd_expression,
+          "CV" = cv_expression,
+          "> 0" = above_zero,
+          "> median" = above_median,
+          "> 95%" = above_95
         )],
         options = list(
           dom = "frtip",
@@ -90,18 +93,21 @@ genes_table_server <- function(id, data) {
       ) |>
         DT::formatPercentage(
           c(
-            "Percentile",
-            "Score",
-            "Expressed",
-            "Above median",
-            "Above 95%"
+            "%",
+            "> 0",
+            "> median",
+            "> 95%"
           ),
           digits = 2,
         ) |>
         DT::formatRound(c(
+          "Score",
           "Median",
+          "IQR",
+          "QCV",
           "Mean",
-          "Standard deviation"
+          "SD",
+          "CV"
         ))
     })
   })

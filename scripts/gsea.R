@@ -42,8 +42,8 @@ fig <- plotly::plot_ly(data) |>
     color = ~source
   ) |>
   plotly::add_lines(
-    x = ~bucket_smoothed,
-    y = ~total_smoothed,
+    x = bucket_smoothed,
+    y = total_smoothed,
     name = "All (smoothed)"
   ) |>
   plotly::layout(

@@ -7,23 +7,11 @@
 rank_genes(
   cross_sample_metric = "above_95",
   cross_sample_weight = 0.5,
-  mean_expression_weight = 0.25,
-  sd_expression_weight = -0.25
+  level_metric = "median_expression_normalized",
+  level_weight = 0.25,
+  variation_metric = "qcv_expression_normalized",
+  variation_weight = -0.25
 )
-}
-\arguments{
-\item{cross_sample_metric}{Metric to use for calculating the number of
-samples a gene is expressed in. One of \code{above_95}, \code{above_median} or
-\code{above_zero}.}
-
-\item{cross_sample_weight}{Weighting of the cross sample metric within the
-final score.}
-
-\item{mean_expression_weight}{Weighting of the gene's mean expression within
-the final score.}
-
-\item{sd_expression_weight}{Weighting of the standard deviation of the
-gene's expression within the final score.}
 }
 \value{
 A \code{data.table} with gene data as well as the scores, ranks and
