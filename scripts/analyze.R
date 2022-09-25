@@ -33,6 +33,15 @@ results <- data[, .(
     above_95 = mean(expression > expression_95)
 ), by = "gene"]
 
+results[, `:=`(
+    qcv_expression = iqr_expression / median_expression,
+    qcv_expression_normalized =
+        iqr_expression_normalized / median_expression_normalized,
+    cv_expression = sd_expression / mean_expression,
+    cv_expression_normalized =
+        sd_expression_normalized / mean_expression_normalized
+)]
+
 # Normalize values to the range of 0.0 to 1.0.
 results[, `:=`(
     median_expression_normalized =
@@ -45,6 +54,11 @@ results[, `:=`(
             min(iqr_expression_normalized, na.rm = TRUE)) /
             (max(iqr_expression_normalized, na.rm = TRUE) -
                 min(iqr_expression_normalized, na.rm = TRUE)),
+    qcv_expression_normalized =
+        (qcv_expression_normalized -
+            min(qcv_expression_normalized, na.rm = TRUE)) /
+            (max(qcv_expression_normalized, na.rm = TRUE) -
+                min(qcv_expression_normalized, na.rm = TRUE)),
     mean_expression_normalized =
         (mean_expression_normalized -
             min(mean_expression_normalized, na.rm = TRUE)) /
@@ -54,7 +68,12 @@ results[, `:=`(
         (sd_expression_normalized -
             min(sd_expression_normalized, na.rm = TRUE)) /
             (max(sd_expression_normalized, na.rm = TRUE) -
-                min(sd_expression_normalized, na.rm = TRUE))
+                min(sd_expression_normalized, na.rm = TRUE)),
+    cv_expression_normalized =
+        (cv_expression_normalized -
+            min(cv_expression_normalized, na.rm = TRUE)) /
+            (max(cv_expression_normalized, na.rm = TRUE) -
+                min(cv_expression_normalized, na.rm = TRUE))
 )]
 
 fwrite(results, file = here("scripts", "output", "results.csv"))

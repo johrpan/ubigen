@@ -10,8 +10,8 @@ genes <- fread(here("scripts", "input", "genes.csv"))
 data <- fread(here("scripts", "output", "results.csv"))
 
 data[, score := 0.5 * above_95 +
-  0.25 * mean_expression_normalized +
-  -0.25 * sd_expression_normalized]
+  0.25 * median_expression_normalized +
+  -0.25 * qcv_expression_normalized]
 
 # Normalize scores to be between 0.0 and 1.0.
 data[, score := (score - min(score, na.rm = TRUE)) /
