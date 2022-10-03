@@ -16,9 +16,9 @@ ui <- function() {
         sidebarLayout(
           sidebarPanel(
             width = 3,
-            h3("My genes"),
+            h3("Your genes"),
             gene_selector_ui("custom_genes"),
-            h3("Scoring"),
+            h3("Method"),
             selectInput(
               "cross_sample_metric",
               verticalLayout(
