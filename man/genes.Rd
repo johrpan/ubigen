@@ -5,7 +5,7 @@
 \alias{genes}
 \title{A \code{data.table} containig data on genes and their expression behavior.}
 \format{
-An object of class \code{data.table} (inherits from \code{data.frame}) with 56156 rows and 20 columns.
+An object of class \code{data.table} (inherits from \code{data.frame}) with 55507 rows and 20 columns.
 }
 \usage{
 genes
