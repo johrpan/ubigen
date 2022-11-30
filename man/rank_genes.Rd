@@ -5,6 +5,7 @@
 \title{Rank genes based on how ubiquitous they are.}
 \usage{
 rank_genes(
+  data = ubigen::genes,
   cross_sample_metric = "above_95",
   cross_sample_weight = 0.5,
   level_metric = "median_expression_normalized",
@@ -12,6 +13,10 @@ rank_genes(
   variation_metric = "qcv_expression_normalized",
   variation_weight = -0.25
 )
+}
+\arguments{
+\item{data}{The input data to use. This should either be the result of a
+previous call to this function or the return value of \code{\link[=analyze]{analyze()}}.}
 }
 \value{
 A \code{data.table} with gene data as well as the scores, ranks and

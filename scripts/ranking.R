@@ -6,22 +6,14 @@ library(here)
 
 i_am("scripts/input.R")
 
+# To save memory, the data includes fake IDs for genes. The actual Ensembl IDs
+# are part of the separate genes table.
+
 genes <- fread(here("scripts", "input", "genes.csv"))
 data <- fread(here("scripts", "output", "results.csv"))
 
-data[, score := 0.5 * above_95 +
-  0.25 * median_expression_normalized +
-  -0.25 * qcv_expression_normalized]
-
-# Normalize scores to be between 0.0 and 1.0.
-data[, score := (score - min(score, na.rm = TRUE)) /
-  (max(score, na.rm = TRUE) - min(score, na.rm = TRUE))]
-
-# These are genes that are not expressed at all or expressed just once, in case
-# the standard deviation is used in the score.
-data[is.na(score), score := 0.0]
-
-setorder(data, -score)
+# Rank the data using default parameters.
+data <- ubigen::rank_genes(data = data)
 
 # Reintroduce gene IDs and HGNC symbols.
 
@@ -41,6 +33,7 @@ data[, id := NULL]
 # Remove duplicates. This will keep the best row for each duplicated gene.
 data <- unique(data, by = "gene")
 
+# Reassign ranks, because duplicates may have been removed.
 data[, rank := .I]
 
 fwrite(data, file = here("scripts", "output", "genes.csv"))

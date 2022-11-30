@@ -3,21 +3,25 @@
 #' This function will compute a weighted average across multiple metrics that
 #' define how ubiquitous a gene is based on its expression across samples.
 #'
+#' @param data The input data to use. This should either be the result of a
+#'   previous call to this function or the return value of [analyze()].
+#'
 #' @return A `data.table` with gene data as well as the scores, ranks and
 #'   percentiles for each gene.
 #'
 #' @export
-rank_genes <- function(cross_sample_metric = "above_95",
+rank_genes <- function(data = ubigen::genes,
+                       cross_sample_metric = "above_95",
                        cross_sample_weight = 0.5,
                        level_metric = "median_expression_normalized",
                        level_weight = 0.25,
                        variation_metric = "qcv_expression_normalized",
                        variation_weight = -0.25) {
+  data <- copy(data)
+
   total_weight <- abs(cross_sample_weight) +
     abs(level_weight) +
     abs(variation_weight)
-
-  data <- copy(ubigen::genes)
 
   data[, score :=
     (cross_sample_weight * get(cross_sample_metric) +
