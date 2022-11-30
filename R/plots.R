@@ -5,7 +5,8 @@
 #' @param sample_proportion Proportion of rows to use as the shown sample.
 #'
 #' @return A `plotly` figure.
-#' @noRd
+#'
+#' @export
 overview_plot <- function(ranked_data,
                           highlighted_genes = NULL,
                           sample_proportion = 0.05) {
@@ -67,7 +68,8 @@ overview_plot <- function(ranked_data,
 #' @param highlighted_genes Genes that will be compared.
 #'
 #' @return A `plotly` figure.
-#' @noRd
+#'
+#' @export
 box_plot <- function(ranked_data, highlighted_genes) {
   data <- data.table::copy(ranked_data)
   data[, group := data.table::fifelse(
@@ -96,7 +98,8 @@ box_plot <- function(ranked_data, highlighted_genes) {
 #'   `NULL`, all ranks will be shown.
 #'
 #' @return A `plotly` figure for rendering.
-#' @noRd
+#' 
+#' @export
 scores_plot <- function(ranked_data, highlighted_genes = NULL, ranks = 1000) {
   data <- if (is.null(ranks)) {
     ranked_data
