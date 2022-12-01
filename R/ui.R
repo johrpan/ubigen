@@ -20,6 +20,14 @@ ui <- function() {
             gene_selector_ui("custom_genes"),
             h3("Method"),
             selectInput(
+              "dataset",
+              label = strong("Expression dataset"),
+              list(
+                "GTEx (all samples)" = "gtex_all",
+                "Human Protein Atlas (tissues)" = "hpa_tissues"
+              )
+            ),
+            selectInput(
               "cross_sample_metric",
               verticalLayout(
                 strong("Expression across samples"),

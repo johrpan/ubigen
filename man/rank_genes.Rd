@@ -5,7 +5,7 @@
 \title{Rank genes based on how ubiquitous they are.}
 \usage{
 rank_genes(
-  data = ubigen::genes,
+  data = ubigen::gtex_all,
   cross_sample_metric = "above_95",
   cross_sample_weight = 0.5,
   level_metric = "median_expression_normalized",

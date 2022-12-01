@@ -10,7 +10,7 @@
 #'   percentiles for each gene.
 #'
 #' @export
-rank_genes <- function(data = ubigen::genes,
+rank_genes <- function(data = ubigen::gtex_all,
                        cross_sample_metric = "above_95",
                        cross_sample_weight = 0.5,
                        level_metric = "median_expression_normalized",

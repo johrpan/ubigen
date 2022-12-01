@@ -1,8 +1,19 @@
 #' Server implementing the main user interface.
 #' @noRd
 server <- function(input, output, session) {
+  dataset <- reactive({
+    analysis <- if (input$dataset == "hpa_tissues") {
+      ubigen::hpa_tissues
+    } else {
+      ubigen::gtex_all
+    }
+
+    merge(analysis, ubigen::genes, by = "gene")
+  })
+
   ranked_data <- reactive({
     rank_genes(
+      data = dataset(),
       cross_sample_metric = input$cross_sample_metric,
       cross_sample_weight = input$cross_sample_weight,
       level_metric = input$level_metric,
