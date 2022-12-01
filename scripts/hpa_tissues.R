@@ -1,7 +1,7 @@
 library(data.table)
 library(here)
 
-i_am("scripts/hpa.R")
+i_am("scripts/hpa_tissues.R")
 
 # Source: https://www.proteinatlas.org/download/rna_tissue_hpa.tsv.zip
 data <- fread(here("scripts", "input", "rna_tissue_hpa.tsv"))

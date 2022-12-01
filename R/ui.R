@@ -23,8 +23,9 @@ ui <- function() {
               "dataset",
               label = strong("Expression dataset"),
               list(
-                "GTEx (all samples)" = "gtex_all",
-                "Human Protein Atlas (tissues)" = "hpa_tissues"
+                "GTEx (across tissues and conditions)" = "gtex_all",
+                "GTEx (across tissues)" = "gtex_tissues",
+                "Human Protein Atlas (across tissues)" = "hpa_tissues"
               )
             ),
             selectInput(

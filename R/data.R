@@ -4,6 +4,9 @@
 #' The results from the analysis across all GTEx samples.
 "gtex_all"
 
+#' The results from the analysis across GTEx tissue aggregated data.
+"gtex_tissues"
+
 #' The results from the analysis across Human Protein Atlas' tissue aggregated
 #' data.
 "hpa_tissues"

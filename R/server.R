@@ -2,7 +2,9 @@
 #' @noRd
 server <- function(input, output, session) {
   dataset <- reactive({
-    analysis <- if (input$dataset == "hpa_tissues") {
+    analysis <- if (input$dataset == "gtex_tissues") {
+      ubigen::gtex_tissues
+    } else if (input$dataset == "hpa_tissues") {
       ubigen::hpa_tissues
     } else {
       ubigen::gtex_all
