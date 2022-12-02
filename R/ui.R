@@ -1,6 +1,6 @@
 #' Function for creating the main user interface.
 #' @noRd
-ui <- function() {
+ui <- function(custom_dataset = NULL) {
   div(
     custom_css(),
     rclipboard::rclipboardSetup(),
@@ -22,11 +22,19 @@ ui <- function() {
             selectInput(
               "dataset",
               label = strong("Expression dataset"),
-              list(
-                "GTEx (across tissues and conditions)" = "gtex_all",
-                "GTEx (across tissues)" = "gtex_tissues",
-                "Human Protein Atlas (across tissues)" = "hpa_tissues"
-              )
+              {
+                choices <- list(
+                  "GTEx (across tissues and conditions)" = "gtex_all",
+                  "GTEx (across tissues)" = "gtex_tissues",
+                  "Human Protein Atlas (across tissues)" = "hpa_tissues"
+                )
+
+                if (!is.null(custom_dataset)) {
+                  c(list("Custom dataset" = "custom"), choices)
+                } else {
+                  choices
+                }
+              }
             ),
             selectInput(
               "cross_sample_metric",

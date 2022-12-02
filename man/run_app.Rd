@@ -4,12 +4,15 @@
 \alias{run_app}
 \title{Run the application server.}
 \usage{
-run_app(host = "127.0.0.1", port = 3464)
+run_app(host = "127.0.0.1", port = 3464, custom_dataset = NULL)
 }
 \arguments{
 \item{host}{The hostname to serve the application on.}
 
 \item{port}{The port to serve the application on.}
+
+\item{custom_dataset}{This allows to set a custom dataset (return value of
+\code{\link[=analyze]{analyze()}}) as the default dataset of the UI.}
 }
 \description{
 Run the application server.
