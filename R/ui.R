@@ -212,6 +212,13 @@ ui <- function(custom_dataset = NULL) {
           ))),
           plotly::plotlyOutput("gsea_plot_ranking", height = "600px")
         )
+      ),
+      tabPanel(
+        title = "API access",
+        div(
+          class = "container",
+          includeMarkdown(system.file("content", "api.md", package = "ubigen"))
+        )
       )
     )
   )
