@@ -33,5 +33,7 @@ Suggests:
     biomaRt,
     edgeR,
     here,
+    jsonlite,
+    plumber,
     purrr,
     stringr
