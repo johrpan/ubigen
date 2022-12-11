@@ -66,7 +66,6 @@ server <- function(custom_dataset = NULL) {
         test_result <- stats::wilcox.test(
           x = comparison,
           y = reference,
-          alternative = "greater",
           conf.int = TRUE
         )
 
@@ -81,7 +80,7 @@ server <- function(custom_dataset = NULL) {
 
         HTML(glue::glue(
           "The p-value with the alternative hypothesis that your genes have ",
-          "higher scores than other genes is <b>{p_value}</b>. This value ",
+          "different scores than other genes is <b>{p_value}</b>. This value ",
           "was computed using a Wilcoxon rank sum test. Based on a 95% ",
           "confidence, the difference in scores is between <b>{lower}</b> and ",
           "<b>{upper}</b>. The median score of your genes is ",
