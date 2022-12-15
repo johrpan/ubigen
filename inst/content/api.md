@@ -1,18 +1,3 @@
-<style>
-h2, h3 {
-     margin-top: 64px;
-}
-
-table {
-     margin-top: 32px;
-     margin-bottom: 32px;
-}
-
-th, td {
-     padding: 4px;
-}
-</style>
-
 ## Using the API for retrieving the data
 
 You can use the API endpoint `/ranking` to download the dataset formatted in
