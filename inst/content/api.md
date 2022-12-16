@@ -1,3 +1,11 @@
+## API access
+
+Ubigen provides programmatic access via an HTTP API. Please see the
+documentation below which includes usage examples using the commonly available
+command [cURL](https://curl.se/). There is also an exemplary
+[Python script](https://code.johrpan.de/johrpan/ubigen/src/branch/main/scripts/api_example.py)
+to show how to use the API in your own applications.
+
 ## Using the API for retrieving the data
 
 You can use the API endpoint `/ranking` to download the dataset formatted in
