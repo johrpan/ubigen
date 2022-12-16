@@ -36,3 +36,8 @@ h5 {
 .container td {
     padding: 4px;
 }
+
+.container img {
+    max-width: 100%;
+    height: auto;
+}

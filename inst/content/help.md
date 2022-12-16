@@ -16,6 +16,8 @@ from a dropdown menu. To paste your genes as a whitespace separated list of
 either HGNC symbols or Ensembl gene IDs (in the form `ENSG00000164362`), change
 the top dropdown from "Select from list" to the desired input method.
 
+![Screenshot of the gene selector](gene_selector.png)
+
 ## Which information does the tool give for my genes of interest?
 
 Once your genes have been selected, the user interface will automatically switch
@@ -33,6 +35,8 @@ their top right corner):
 4. A detailed table (downloadable as CSV) including scores, ranks and
    percentiles as well as the computed parameters for your genes.
 
+![Screenshot of information on custom genes](custom_genes.png)
+
 ## How can I change the parameters of the method?
 
 The panel on the left side offers multiple controls to change the parameters of
@@ -46,6 +50,8 @@ as well as their weight contributing to that score. These are the criteria:
 | Expression level                         | The median expression level (logarithmic) is determined for each gene across all samples. Alternatively, it is possible to select the mean expression.                                                                                                                                                    | 25%               |
 | Expression variation                     | Measure of the variation of a gene’s expression between samples. By default, the interquartile range (IQR) normalized by the median is used. Other options include the IQR itself, the standard deviation and the coefficient of variation.                                                               | -25%              |
 
+![Screenshot of the method parameter controls](method_parameters.png)
+
 ## What does the GSEA tab do?
 
 The "GSEA" tab provides a simple gene set enrichment analysis using
@@ -53,6 +59,8 @@ The "GSEA" tab provides a simple gene set enrichment analysis using
 of over-representation of annotated genes in the top part of the ranking which
 is a way to insinuate the biological or at least scientific relevance of the
 scoring.
+
+![Screenshot of the GSEA plot](gsea.png)
 
 ## How can I perform analyses of ubiquity relative to my own expression dataset?
 
