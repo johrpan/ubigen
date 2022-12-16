@@ -16,9 +16,9 @@ ui <- function(custom_dataset = NULL) {
         sidebarLayout(
           sidebarPanel(
             width = 3,
-            h3("Your genes"),
+            h5("Your genes"),
             gene_selector_ui("custom_genes"),
-            h3("Method"),
+            h5("Method"),
             selectInput(
               "dataset",
               label = strong("Expression dataset"),
