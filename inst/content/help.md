@@ -14,7 +14,9 @@ You can easily analyze your genes of interest for their ubiquity. In the
 initial state of the application, you can select genes by their HGNC symbols
 from a dropdown menu. To paste your genes as a whitespace separated list of
 either HGNC symbols or Ensembl gene IDs (in the form `ENSG00000164362`), change
-the top dropdown from "Select from list" to the desired input method.
+the top dropdown from "Select from list" to the desired input method. It is also
+possible to select sample data (genes involved in glycolysis according to the
+KEGG pathways database [`KEGG:hsa00010+M00001`]).
 
 ![Screenshot of the gene selector](gene_selector.png)
 

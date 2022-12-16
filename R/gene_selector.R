@@ -23,7 +23,8 @@ gene_selector_ui <- function(id) {
       choices = list(
         "Select from list" = "list",
         "Enter HGNC symbols" = "hgnc",
-        "Enter Ensembl gene IDs" = "ensembl"
+        "Enter Ensembl gene IDs" = "ensembl",
+        "Sample data: Glycolysis" = "sample"
       )
     ),
     tabsetPanel(
@@ -97,10 +98,40 @@ gene_selector_server <- function(id) {
         inputs <- unique(strsplit(input$hgnc_names_raw, "\\s+")[[1]])
         inputs <- inputs[inputs != ""]
         ubigen::genes[hgnc_name %chin% inputs, gene]
-      } else {
+      } else if (input$identifier_type == "ensembl") {
         inputs <- unique(strsplit(input$gene_ids_raw, "\\s+")[[1]])
         inputs <- inputs[inputs != ""]
         ubigen::genes[gene %chin% inputs, gene]
+      } else {
+        # Sample genes involved in glycolysis according to the KEGG pathways
+        # database [KEGG:hsa00010+M00001].
+        c(
+          "ENSG00000111640",
+          "ENSG00000111669",
+          "ENSG00000149925",
+          "ENSG00000074800",
+          "ENSG00000105220",
+          "ENSG00000067225",
+          "ENSG00000102144",
+          "ENSG00000141959",
+          "ENSG00000156515",
+          "ENSG00000171314",
+          "ENSG00000067057",
+          "ENSG00000111674",
+          "ENSG00000159322",
+          "ENSG00000152556",
+          "ENSG00000109107",
+          "ENSG00000159399",
+          "ENSG00000108515",
+          "ENSG00000160883",
+          "ENSG00000226784",
+          "ENSG00000188316",
+          "ENSG00000106633",
+          "ENSG00000136872",
+          "ENSG00000156510",
+          "ENSG00000143627",
+          "ENSG00000170950"
+        )
       }
 
       if (length(gene_ids) > 100) {
