@@ -18,6 +18,7 @@ overview_plot <- function(ranked_data,
       )],
       x = ~percentile,
       y = ~score,
+      line = list(color = base_color()),
       hoverinfo = "skip"
     ) |>
     plotly::layout(
@@ -54,6 +55,7 @@ overview_plot <- function(ranked_data,
           "Rank: {rank}<br>",
           "Percentile: {round(percentile * 100, digits = 2)}%"
         ),
+        marker = list(color = highlight_color()),
         hoverinfo = "text",
         showlegend = FALSE
       )
@@ -71,23 +73,33 @@ overview_plot <- function(ranked_data,
 #'
 #' @export
 box_plot <- function(ranked_data, highlighted_genes) {
-  data <- data.table::copy(ranked_data)
-  data[, group := data.table::fifelse(
-    gene %chin% highlighted_genes,
-    "Your genes",
-    "Other genes"
-  )]
-
-  plotly::plot_ly() |>
+  fig <- plotly::plot_ly() |>
     plotly::add_boxplot(
-      data = data,
+      data = ranked_data[!gene %chin% highlighted_genes],
       x = ~score,
-      y = ~group,
+      y = "Other genes",
+      line = list(color = base_color()),
+      fillcolor = transparent(base_color()),
+      showlegend = FALSE,
       boxpoints = FALSE
-    ) |> plotly::layout(
-      xaxis = list(title = "Score"),
-      yaxis = list(title = "")
     )
+
+  if (length(highlighted_genes) >= 1) {
+    fig <- fig |> plotly::add_boxplot(
+      data = ranked_data[gene %chin% highlighted_genes],
+      x = ~score,
+      y = "Your genes",
+      line = list(color = highlight_color()),
+      fillcolor = transparent(highlight_color()),
+      showlegend = FALSE,
+      boxpoints = FALSE
+    )
+  }
+
+  fig |> plotly::layout(
+    xaxis = list(title = "Score"),
+    yaxis = list(title = "")
+  )
 }
 
 #' Create plot showing the distribution of scores using `plotly`.
@@ -98,7 +110,7 @@ box_plot <- function(ranked_data, highlighted_genes) {
 #'   `NULL`, all ranks will be shown.
 #'
 #' @return A `plotly` figure for rendering.
-#' 
+#'
 #' @export
 scores_plot <- function(ranked_data, highlighted_genes = NULL, ranks = 1000) {
   data <- if (is.null(ranks)) {
@@ -119,6 +131,21 @@ scores_plot <- function(ranked_data, highlighted_genes = NULL, ranks = 1000) {
     "All genes"
   )]
 
+  data[, color := data.table::fifelse(
+    gene %chin% highlighted_genes,
+    highlight_color(),
+    base_color()
+  )]
+
+  data[, size := data.table::fifelse(
+    gene %chin% highlighted_genes,
+    8,
+    4
+  )]
+
+  # Draw "Your genes" on top of "All genes".
+  setorder(data, group)
+
   plotly::plot_ly() |>
     plotly::add_markers(
       data = data,
@@ -130,6 +157,12 @@ scores_plot <- function(ranked_data, highlighted_genes = NULL, ranks = 1000) {
         "Score: {round(score, digits = 2)}<br>",
         "Rank: {rank}<br>",
         "Percentile: {round(percentile * 100, digits = 2)}%"
+      ),
+      marker = ~ list(
+        color = color,
+        size = size,
+        opacity = 1,
+        line = list(width = 0)
       ),
       hoverinfo = "text",
       showlegend = FALSE
@@ -179,4 +212,18 @@ vlineannotation <- function(x) {
       color = "#00000080"
     )
   )
+}
+
+#' Base color for plots.
+#' @noRd
+base_color <- function() "#7d19bf"
+
+#' Highlight color for plots.
+#' @noRd
+highlight_color <- function() "#ff7f2a"
+
+#' Return the half-transparent version of the color.
+#' @noRd
+transparent <- function(color) {
+  paste0(color, "80")
 }
