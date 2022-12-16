@@ -18,6 +18,10 @@ h5 {
     margin-right: 12px;
 }
 
+.container {
+    margin-bottom: 128px;
+}
+
 .container h2,
 .container h3 {
     margin-top: 64px;

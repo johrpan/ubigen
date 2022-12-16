@@ -214,6 +214,13 @@ ui <- function(custom_dataset = NULL) {
         )
       ),
       tabPanel(
+        title = "Help",
+        div(
+          class = "container",
+          includeMarkdown(system.file("content", "help.md", package = "ubigen"))
+        )
+      ),
+      tabPanel(
         title = "API access",
         div(
           class = "container",
