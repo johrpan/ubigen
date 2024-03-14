@@ -26,7 +26,8 @@ ui <- function(custom_dataset = NULL) {
                 choices <- list(
                   "GTEx (across tissues and conditions)" = "gtex_all",
                   "GTEx (across tissues)" = "gtex_tissues",
-                  "Human Protein Atlas (across tissues)" = "hpa_tissues"
+                  "Human Protein Atlas (across tissues)" = "hpa_tissues",
+                  "CMap" = "cmap"
                 )
 
                 if (!is.null(custom_dataset)) {

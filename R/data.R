@@ -10,3 +10,6 @@
 #' The results from the analysis across Human Protein Atlas' tissue aggregated
 #' data.
 "hpa_tissues"
+
+#' The results from the analysis on CMap data.
+"cmap"

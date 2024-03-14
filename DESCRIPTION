@@ -15,7 +15,7 @@ Description: This package contains precomputed data including comparisons in
 License: AGPL (>= 3)
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.2.1
+RoxygenNote: 7.3.1
 Depends:
     R (>= 2.10)
 LazyData: true

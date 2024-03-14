@@ -9,6 +9,8 @@ server <- function(custom_dataset = NULL) {
         ubigen::hpa_tissues
       } else if (input$dataset == "gtex_all") {
         ubigen::gtex_all
+      } else if (input$dataset == "cmap") {
+        ubigen::cmap
       } else {
         custom_dataset
       }
