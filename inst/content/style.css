@@ -41,3 +41,17 @@ h5 {
     max-width: 100%;
     height: auto;
 }
+
+/* Undo changes in Bootstrap theme */
+.nav-underline .nav-link {
+    border-bottom: 0;
+}
+
+/* Fix slider inputs floating above dropdown menu */
+.irs--shiny .irs-bar {
+    z-index: 1;
+}
+
+.irs--shiny .irs-handle {
+    z-index: 1;
+}
