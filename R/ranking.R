@@ -45,8 +45,8 @@ rank_genes <- function(data = ubigen::gtex_all,
   data[, score := (score - min(score, na.rm = TRUE)) /
     (max(score, na.rm = TRUE) - min(score, na.rm = TRUE))]
 
-  # These are genes that are not expressed at all.
-  data[is.na(score), score := 0.0]
+  # Exclude genes that are not expressed at all.
+  data <- data[!is.na(score)]
 
   setorder(data, -score)
   data[, rank := .I]
