@@ -17,6 +17,24 @@ rank_genes(
 \arguments{
 \item{data}{The input data to use. This should either be the result of a
 previous call to this function or the return value of \code{\link[=analyze]{analyze()}}.}
+
+\item{cross_sample_metric}{Name of the column that should be used as the
+metric measuring the expression across samples.}
+
+\item{cross_sample_weight}{Relative weight that should be assigned to the
+cross sample metric.}
+
+\item{level_metric}{Name of the column that should be used to represent
+overall expression levels.}
+
+\item{level_weight}{Relative weight that should be assigned to the level
+metric.}
+
+\item{variation_metric}{Name of the column that should be used as the metric
+representing variation in expression.}
+
+\item{variation_weight}{Relative weight that should be assigned to the
+variation metric.}
 }
 \value{
 A \code{data.table} with gene data as well as the scores, ranks and

@@ -5,6 +5,18 @@
 #'
 #' @param data The input data to use. This should either be the result of a
 #'   previous call to this function or the return value of [analyze()].
+#' @param cross_sample_metric Name of the column that should be used as the
+#'   metric measuring the expression across samples.
+#' @param cross_sample_weight Relative weight that should be assigned to the
+#'   cross sample metric.
+#' @param level_metric Name of the column that should be used to represent
+#'   overall expression levels.
+#' @param level_weight Relative weight that should be assigned to the level
+#'   metric.
+#' @param variation_metric Name of the column that should be used as the metric
+#'   representing variation in expression.
+#' @param variation_weight Relative weight that should be assigned to the
+#'   variation metric.
 #'
 #' @return A `data.table` with gene data as well as the scores, ranks and
 #'   percentiles for each gene.
