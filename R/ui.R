@@ -126,7 +126,8 @@ ui <- function(custom_dataset = NULL) {
                 value = "top_genes",
                 div(paste0(
                   "Hover over the markers to see details on each gene. Click ",
-                  "or drag within the figure to select genes of interest."
+                  "or drag within the figure to select genes of interest. ",
+                  "Double-click removes the selection."
                 )),
                 plotly::plotlyOutput("scores_plot"),
                 div(class = "p-1"),
@@ -137,7 +138,67 @@ ui <- function(custom_dataset = NULL) {
                   "on."
                 )),
                 div(class = "p-1"),
-                genes_table_ui("selected_genes")
+                genes_table_ui("selected_top_genes")
+              ),
+              tabPanel(
+                "Compare rankings",
+                value = "rankings",
+                div(
+                  class = "flow-layout",
+                  selectInput(
+                    "ranking_y",
+                    label = NULL,
+                    list(
+                      "Custom" = "custom",
+                      "GTEx (across tissues and conditions)" = "gtex_all",
+                      "GTEx (across tissues)" = "gtex_tissues",
+                      "Human Protein Atlas (across tissues)" = "hpa_tissues",
+                      "CMap" = "cmap"
+                    ),
+                    selected = "cmap"
+                  ),
+                  span(
+                    style = paste0(
+                      "display: inline-block;",
+                      "margin-right: 12px;",
+                      "padding: 0.375rem 0.75rem;"
+                    ),
+                    "~"
+                  ),
+                  selectInput(
+                    "ranking_x",
+                    label = NULL,
+                    list(
+                      "Custom" = "custom",
+                      "GTEx (across tissues and conditions)" = "gtex_all",
+                      "GTEx (across tissues)" = "gtex_tissues",
+                      "Human Protein Atlas (across tissues)" = "hpa_tissues",
+                      "CMap" = "cmap"
+                    )
+                  ),
+                  selectInput(
+                    "rankings_comparison_mode",
+                    label = NULL,
+                    list(
+                      "Compare scores" = "scores",
+                      "Compare percentiles" = "percentiles"
+                    )
+                  )
+                ),
+                div(class = "p-1"),
+                div(paste0(
+                  "Hover over the markers to see the HGNC symbols for the ",
+                  "genes. Click or draw within the figure to select genes of ",
+                  "interest. Double-click removes the selection."
+                )),
+                div(class = "p-1"),
+                plotly::plotlyOutput(
+                  "rankings_plot",
+                  width = "800px",
+                  height = "800px"
+                ),
+                div(class = "p-1"),
+                genes_table_ui("selected_comparison_genes")
               ),
               tabPanel(
                 "GSEA",

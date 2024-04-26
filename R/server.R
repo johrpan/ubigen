@@ -105,24 +105,76 @@ server <- function(custom_dataset = NULL) {
       highlighted_genes = custom_genes()
     ))
 
-    selected_genes <- reactive({
+    selected_top_genes <- reactive({
       selected_points <- plotly::event_data("plotly_selected")
       ranked_data()[rank %in% selected_points$x]
     })
 
-    genes_table_server("selected_genes", reactive({
-      if (nrow(selected_genes()) > 0) {
-        selected_genes()
+    genes_table_server("selected_top_genes", reactive({
+      if (nrow(selected_top_genes()) > 0) {
+        selected_top_genes()
       } else {
         ranked_data()
       }
+    }))
+
+    output$rankings_plot <- plotly::renderPlotly({
+      handle_axis <- function(ranking_id) {
+        if (ranking_id == "gtex_all") {
+          list(
+            ranking = rank_genes(ubigen::gtex_all),
+            label = "GTEx (across tissues and conditions)"
+          )
+        } else if (ranking_id == "gtex_tissues") {
+          list(
+            ranking = rank_genes(ubigen::gtex_tissues),
+            label = "GTEx (across tissues)"
+          )
+        } else if (ranking_id == "hpa_tissues") {
+          list(
+            ranking = rank_genes(ubigen::hpa_tissues),
+            label = "Human Protein Atlas (across tissues)"
+          )
+        } else if (ranking_id == "cmap") {
+          list(
+            ranking = rank_genes(ubigen::cmap),
+            label = "CMap"
+          )
+        } else {
+          list(
+            ranking = ranked_data(),
+            label = "Custom"
+          )
+        }
+      }
+
+      x <- handle_axis(input$ranking_x)
+      y <- handle_axis(input$ranking_y)
+
+      rankings_comparison_plot(
+        x$ranking,
+        y$ranking,
+        label_x = x$label,
+        label_y = y$label,
+        highlighted_genes = custom_genes(),
+        use_percentiles = input$rankings_comparison_mode == "percentiles"
+      )
+    })
+
+    selected_comparison_genes <- reactive({
+      selected_points <- plotly::event_data("plotly_selected")
+      ranked_data()[gene %chin% selected_points$customdata]
+    })
+
+    genes_table_server("selected_comparison_genes", reactive({
+      selected_comparison_genes()
     }))
 
     gsea_genes <- reactive({
       sort(if (input$gsea_set == "top") {
         ranked_data()[rank >= input$gsea_ranks, gene]
       } else if (input$gsea_set == "selected") {
-        selected_genes()[, gene]
+        selected_top_genes()[, gene]
       } else {
         custom_genes()
       })
