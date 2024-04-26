@@ -40,14 +40,14 @@ genes_table_server <- function(id, data) {
       splitLayout(
         cellWidths = "auto",
         rclipboard::rclipButton(
-          "copy_ids_button",
+          NS(id, "copy_ids_button"),
           "Copy gene IDs",
           genes_text,
           icon = icon("clipboard"),
           class = "btn-outline-primary"
         ),
         rclipboard::rclipButton(
-          "copy_names_button",
+          NS(id, "copy_names_button"),
           "Copy HGNC symbols",
           names_text,
           icon = icon("clipboard"),
