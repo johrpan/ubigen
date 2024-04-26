@@ -178,6 +178,90 @@ scores_plot <- function(ranked_data, highlighted_genes = NULL, ranks = 1000) {
     )
 }
 
+#' Create a scatter plot for comparing two different rankings.
+#'
+#' @param ranking_x The ranking to be shown on the X-axis.
+#' @param ranking_y The ranking to be shown on the Y-axis.
+#' @param label_x Axis title for the X-axis.
+#' @param label_y Axis title for the Y-axis.
+#' @param highlighted_genes Gene IDs for genes that should be highlighted
+#' @param use_percentiles Display percentiles instead of scores.
+#'
+#' @return A `plotly` figure for rendering.
+#'
+#' @export
+rankings_comparison_plot <- function(ranking_x,
+                                     ranking_y,
+                                     label_x = "Ranking X",
+                                     label_y = "Ranking Y",
+                                     highlighted_genes = NULL,
+                                     use_percentiles = FALSE) {
+  data <- merge(
+    ranking_x[, .(gene, score, percentile)],
+    ranking_y[, .(gene, score, percentile)],
+    by = "gene",
+    suffixes = c(x = "_x", y = "_y")
+  )
+
+  data <- merge(
+    data,
+    ubigen::genes,
+    by = "gene"
+  )
+
+  data[, group := data.table::fifelse(
+    gene %chin% highlighted_genes,
+    "Your genes",
+    "All genes"
+  )]
+
+  data[, color := data.table::fifelse(
+    gene %chin% highlighted_genes,
+    highlight_color(),
+    base_color()
+  )]
+
+  data[, size := data.table::fifelse(
+    gene %chin% highlighted_genes,
+    8,
+    4
+  )]
+
+  # Draw "Your genes" on top of "All genes".
+  setorder(data, group)
+
+  plotly::plot_ly() |>
+    plotly::add_markers(
+      data = data,
+      x = if (use_percentiles) ~percentile_x else ~score_x,
+      y = if (use_percentiles) ~percentile_y else ~score_y,
+      name = ~group,
+      marker = ~ list(
+        color = color,
+        size = size,
+        opacity = 1,
+        line = list(width = 0)
+      ),
+      text = ~hgnc_name,
+      hoverinfo = "text",
+      customdata = ~gene,
+      showlegend = FALSE
+    ) |>
+    plotly::layout(
+      xaxis = list(
+        title = label_x,
+        tickformat = if (use_percentiles) ".1%" else NULL
+      ),
+      yaxis = list(title = label_y),
+      shapes = list(
+        vline(0.5),
+        hline(0.5)
+      ),
+      clickmode = "event+select",
+      dragmode = "lasso"
+    )
+}
+
 #' Helper function for creating a vertical line for plotly.
 #' @noRd
 vline <- function(x) {
@@ -188,6 +272,24 @@ vline <- function(x) {
     yref = "paper",
     x0 = x,
     x1 = x,
+    line = list(
+      color = "#00000080",
+      opacity = 0.5,
+      dash = "dot"
+    )
+  )
+}
+
+#' Helper function for creating a horizontal line for plotly.
+#' @noRd
+hline <- function(y) {
+  list(
+    type = "line",
+    y0 = y,
+    y1 = y,
+    x0 = 0,
+    x1 = 1,
+    xref = "paper",
     line = list(
       color = "#00000080",
       opacity = 0.5,
