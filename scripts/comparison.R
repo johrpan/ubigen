@@ -45,7 +45,7 @@ threshold_cmap <- data[percentile_cmap >= 0.95, min(score_cmap)]
 
 fig <- plotly::plot_ly() |>
   plotly::add_markers(
-    data = data,
+    data = data[count >= 1],
     x = ~score_gtex,
     y = ~score_cmap,
     color = ~count,
@@ -127,12 +127,19 @@ fig <- plotly::plot_ly() |>
       b = 36
     )
   ) |>
-  plotly::hide_legend() |>
-  plotly::hide_colorbar()
+  plotly::hide_legend()
+
+plotly::save_image(
+  fig |> plotly::hide_colorbar(),
+  file = here("scripts/output/comparison.svg"),
+  width = 6.27 * 72,
+  height = 6.27 * 72,
+  scale = 96 / 72
+)
 
 plotly::save_image(
   fig,
-  file = here("scripts/output/comparison.svg"),
+  file = here("scripts/output/comparison_legend.svg"),
   width = 6.27 * 72,
   height = 6.27 * 72,
   scale = 96 / 72
