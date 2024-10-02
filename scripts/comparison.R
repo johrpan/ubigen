@@ -17,6 +17,13 @@ datasets <- list(
   "Joshi 2022" = j2022
 )
 
+VennDiagram::venn.diagram(datasets, filename = NULL, disable.logging = TRUE) |>
+  ggplot2::ggsave(file = here("scripts/output/venn.svg"), device = "svg")
+
+partitions <- VennDiagram::get.venn.partitions(datasets) |> data.table()
+genes_venn <- partitions[1]$..values..[[1]]
+write(genes_venn, file = here("scripts/output/genes_venn.txt"))
+
 ranking_gtex <- ubigen::rank_genes(ubigen::gtex_all)
 ranking_cmap <- ubigen::rank_genes(ubigen::cmap)
 
