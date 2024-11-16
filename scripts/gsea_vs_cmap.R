@@ -43,11 +43,17 @@ write(genes_optics, here("scripts/output/genes_optics.txt"))
 
 # Percentiles
 
-genes_1_1 <- data[percentile_gtex >= 0.95 & percentile_cmap >= 0.95, gene]
-genes_1_0 <- data[percentile_gtex >= 0.95 & percentile_cmap < 0.95, gene]
+data[percentile_gtex < 0.95 & percentile_cmap < 0.95, group := "0_0"]
+data[percentile_gtex < 0.95 & percentile_cmap >= 0.95, group := "0_1"]
+data[percentile_gtex >= 0.95 & percentile_cmap < 0.95, group := "1_0"]
+data[percentile_gtex >= 0.95 & percentile_cmap >= 0.95, group := "1_1"]
 
-write(genes_1_1, here("scripts/output/genes_1_1.txt"))
-write(genes_1_0, here("scripts/output/genes_1_0.txt"))
+fwrite(data, file = here("scripts/output/gsea_vs_cmap_groups.csv"))
+
+write(data[group == "0_0", gene], here("scripts/output/genes_0_0.txt"))
+write(data[group == "0_1", gene], here("scripts/output/genes_0_1.txt"))
+write(data[group == "1_0", gene], here("scripts/output/genes_1_0.txt"))
+write(data[group == "1_1", gene], here("scripts/output/genes_1_1.txt"))
 
 threshold_gtex <- data[percentile_gtex >= 0.95, min(score_gtex)]
 threshold_cmap <- data[percentile_cmap >= 0.95, min(score_cmap)]
