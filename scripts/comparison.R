@@ -145,11 +145,21 @@ threshold_cmap <- data[percentile_cmap >= 0.95, min(score_cmap)]
 
 fig <- plotly::plot_ly() |>
   plotly::add_markers(
+    data = data[count == 0 & !(gene %chin% genes_literature)],
+    x = ~score_gtex,
+    y = ~score_cmap,
+    marker = list(
+      size = 2,
+      color = "#919191",
+      opacity = 0.5
+    ),
+    cliponaxis = FALSE
+  ) |>
+  plotly::add_markers(
     data = data[count >= 1 & !(gene %chin% genes_literature)],
     x = ~score_gtex,
     y = ~score_cmap,
     color = ~count,
-    colors = c("#7d19bf", "#ff7f2a"),
     marker = list(
       size = 4,
       opacity = 0.8
