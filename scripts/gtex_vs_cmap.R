@@ -1,7 +1,7 @@
 library(data.table)
 library(here)
 
-i_am("scripts/gsea_vs_cmap.R")
+i_am("scripts/gtex_vs_cmap.R")
 
 ranking_gtex <- ubigen::rank_genes(ubigen::gtex_all)
 ranking_cmap <- ubigen::rank_genes(ubigen::cmap)
@@ -48,7 +48,7 @@ data[percentile_gtex < 0.95 & percentile_cmap >= 0.95, group := "0_1"]
 data[percentile_gtex >= 0.95 & percentile_cmap < 0.95, group := "1_0"]
 data[percentile_gtex >= 0.95 & percentile_cmap >= 0.95, group := "1_1"]
 
-fwrite(data, file = here("scripts/output/gsea_vs_cmap_groups.csv"))
+fwrite(data, file = here("scripts/output/gtex_vs_cmap_groups.csv"))
 
 write(data[group == "0_0", gene], here("scripts/output/genes_0_0.txt"))
 write(data[group == "0_1", gene], here("scripts/output/genes_0_1.txt"))
@@ -151,7 +151,7 @@ fig <- plotly::plot_ly() |>
 
 plotly::save_image(
   fig,
-  file = here("scripts/output/gsea_vs_cmap.svg"),
+  file = here("scripts/output/gtex_vs_cmap.svg"),
   width = 6.27 * 72,
   height = 6.27 * 72,
   scale = 96 / 72
