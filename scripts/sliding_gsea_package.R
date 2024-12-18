@@ -8,7 +8,7 @@ bucket_size <- 500
 library(data.table)
 library(here)
 
-i_am("scripts/gsea.R")
+i_am("scripts/sliding_gsea_package.R")
 file_path <- here("scripts", "output", "ubigen_gsea.Rds")
 image_path <- here("scripts", "output", "ubigen_gsea.svg")
 
