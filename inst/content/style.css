@@ -47,6 +47,16 @@ h5 {
     border-bottom: 0;
 }
 
+.navbar[data-bs-theme="light"] {
+    --bslib-navbar-light-bg: #7D19BF;
+    --bs-navbar-color: rgba(255, 255, 255, 0.65);
+    --bs-navbar-hover-color: rgba(255, 255, 255, 0.8);
+    --bs-navbar-disabled-color: rgba(255, 255, 255, 0.3);
+    --bs-navbar-active-color: #fff;
+    --bs-navbar-brand-color: #fff;
+    --bs-navbar-brand-hover-color: #fff;
+}
+
 /* Fix slider inputs floating above dropdown menu */
 .irs--shiny .irs-bar {
     z-index: 1;
