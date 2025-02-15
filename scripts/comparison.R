@@ -86,6 +86,40 @@ datasets_table <- datasets_data[, .(count = .N), by = c("dataset", "group")]
 datasets_table[, total := sum(count), by = dataset]
 datasets_table[, proportion := count / total]
 
+fig_11 <- plotly::plot_ly() |>
+  plotly::add_bars(
+    data = datasets_table[group == "1_1"],
+    x = ~dataset,
+    y = ~proportion
+  ) |>
+  plotly::layout(
+    xaxis = list(
+      categoryarray = datasets_table[group == "1_1", unique(dataset)],
+      title = ""
+    ),
+    yaxis = list(
+      range = c(0.0, 1.0),
+      title = "",
+      tickformat = ".0%"
+    ),
+    font = list(size = 8),
+    margin = list(
+      pad = 2,
+      l = 0,
+      r = 0,
+      t = 0,
+      b = 36
+    )
+  )
+
+plotly::save_image(
+  fig_11,
+  file = here(glue::glue("scripts/output/gene_sets_highlight_1_1.svg")),
+  width = 3.135 * 72,
+  height = 3.135 * 72,
+  scale = 96 / 72
+)
+
 group_plots <- list()
 
 for (group_value in datasets_table[, unique(group)]) {
