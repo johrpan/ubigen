@@ -1,7 +1,7 @@
 library(data.table)
 library(here)
 
-i_am("scripts/gsea_vs_cmap.R")
+i_am("scripts/datasets.R")
 
 ranking_gtex_all <- ubigen::rank_genes(ubigen::gtex_all)
 ranking_gtex_tissues <- ubigen::rank_genes(ubigen::gtex_tissues)
