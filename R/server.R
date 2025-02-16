@@ -237,5 +237,6 @@ server <- function(custom_dataset = NULL) {
     })
 
     output$gsea_plot_ranking <- plotly::renderPlotly(gsea_plot_ranking)
+    output$fig_drug_scores <- plotly::renderPlotly(fig_drug_scores)
   }
 }

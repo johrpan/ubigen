@@ -272,7 +272,21 @@ ui <- function(custom_dataset = NULL) {
             "Note: Click on the legend items to toggle single sources. A ",
             "double-click will isolate a single source of interest."
           ))),
-          plotly::plotlyOutput("gsea_plot_ranking", height = "600px")
+          plotly::plotlyOutput("gsea_plot_ranking", height = "600px"),
+          h2("Drug effects"),
+          p(HTML(paste0(
+            "Scores for drugs based on the genes that are significantly ",
+            "influenced by them. To compute a score for each drug, the scores ",
+            "of all influenced genes based on “GTEx (all)” (X-axis) and ",
+            "“CMap” (Y-axis) are averaged with weights based on the fold ",
+            "change of the interactions. The position of each drug in this ",
+            "plot is therefore a result of how ubiquitous the genes that it ",
+            "influences are."
+          ))),
+          p(HTML(paste0(
+            "Note: Hover over the markers to see drug names."
+          ))),
+          plotly::plotlyOutput("fig_drug_scores", height = "1200px")
         )
       ),
       tabPanel(

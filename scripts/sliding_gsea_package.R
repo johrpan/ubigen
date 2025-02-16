@@ -55,5 +55,13 @@ fig <- plotly::plot_ly(data) |>
 
 plotly::save_image(fig, image_path, width = 1200, height = 800)
 
+# To not overwrite other data:
+load(here("R/sysdata.rda"))
 gsea_plot_ranking <- fig
-usethis::use_data(gsea_plot_ranking, internal = TRUE, overwrite = TRUE)
+
+usethis::use_data(
+  gsea_plot_ranking,
+  fig_drug_scores, # From R/sysdata.rda
+  internal = TRUE,
+  overwrite = TRUE
+)
