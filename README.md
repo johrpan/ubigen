@@ -11,7 +11,7 @@ You can install the development version of `ubigen` using:
 
 ```r
 # install.packages("remotes")
-remotes::install_git("https://code.johrpan.de/johrpan/ubigen.git")
+remotes::install_git("https://github.com/johrpan/ubigen.git")
 ```
 
 ## Usage
