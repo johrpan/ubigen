@@ -104,6 +104,15 @@ ui <- function(custom_dataset = NULL) {
               max = 1.0,
               step = 0.01,
               value = -0.25
+            ),
+            div(
+              class = "footer",
+              HTML(glue::glue(
+                "Ubigen version {packageVersion(\"ubigen\")}<br>Source code: ",
+                "<a href=\"https://gitlab.uni-rostock.de/ep135/ubigen/\" ",
+                "target=\"blank\">available online</a> (GNU AGPL v3)<br>",
+                "Citation: Manuscript in preparation"
+              ))
             )
           ),
           mainPanel(

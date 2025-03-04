@@ -42,6 +42,12 @@ h5 {
     height: auto;
 }
 
+.footer {
+    margin-top: 32px;
+    font-size: small;
+    color: grey;
+}
+
 /* Undo changes in Bootstrap theme */
 .nav-underline .nav-link {
     border-bottom: 0;
