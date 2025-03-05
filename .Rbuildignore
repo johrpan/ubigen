@@ -1,2 +1,4 @@
+^docker$
 ^scripts$
+^Dockerfile$
 ^LICENSE\.md$
