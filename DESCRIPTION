@@ -1,6 +1,6 @@
 Package: ubigen
-Title: Graphical Interface for Finding Ubiquitous Genes
-Version: 0.0.0.9000
+Title: Analyze Ubiquitously Expressed Genes
+Version: 0.1.0
 Authors@R:
     person(
         "Elias",
@@ -9,9 +9,9 @@ Authors@R:
         role = c("aut", "cre"),
         comment = c(ORCID = "0000-0002-4153-4071")
     )
-Description: This package contains precomputed data including comparisons in
-    gene expression. It provides a graphical interface to analyze and visualize
-    those data to rank genes based on how ubiquitously expressed they are.
+Description: This package contains precomputed data and functions for analyzing
+    ubiquitously expressed genes including interactive visualizations and a
+    graphical web interface based on Shiny.
 License: AGPL (>= 3)
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
