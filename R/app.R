@@ -5,17 +5,31 @@
 #' @param custom_dataset This allows to set a custom dataset (return value of
 #'   [analyze()]) as the default dataset of the UI.
 #'
+#' @seealso [app()] for retrieving a Shiny app object.
+#'
 #' @export
 run_app <- function(host = "127.0.0.1",
                     port = 3464,
                     custom_dataset = NULL) {
   runApp(
-    shinyApp(
-      ui(custom_dataset = custom_dataset),
-      server(custom_dataset = custom_dataset)
-    ),
+    app(custom_dataset = custom_dataset),
     host = host,
     port = port
+  )
+}
+
+#' Create a shiny application for Ubigen.
+#'
+#' @param custom_dataset This allows to set a custom dataset (return value of
+#'   [analyze()]) as the default dataset of the UI.
+#'
+#' @seealso [run_app()] for immediately running the application.
+#'
+#' @export
+app <- function(custom_dataset = NULL) {
+  shinyApp(
+    ui(custom_dataset = custom_dataset),
+    server(custom_dataset = custom_dataset)
   )
 }
 

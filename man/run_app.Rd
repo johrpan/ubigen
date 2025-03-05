@@ -17,3 +17,6 @@ run_app(host = "127.0.0.1", port = 3464, custom_dataset = NULL)
 \description{
 Run the application server.
 }
+\seealso{
+\code{\link[=app]{app()}} for retrieving a Shiny app object.
+}
