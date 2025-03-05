@@ -29,7 +29,6 @@ Imports:
     gprofiler2,
     markdown,
     rclipboard,
-    readr,
     shiny,
     shinyWidgets
 Suggests:

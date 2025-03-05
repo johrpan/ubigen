@@ -6,7 +6,9 @@ genes. It is publicly available at
 This repository contains an R package including the input data, the methods and
 the code for the interactive web interface.
 
-## Installation
+## Installation and Usage
+
+### Local
 
 You can install the development version of `ubigen` using:
 
@@ -15,11 +17,9 @@ You can install the development version of `ubigen` using:
 pak::pkg_install("git::https://gitlab.uni-rostock.de/ep135/ubigen.git")
 ```
 
-## Usage
-
 You only need one function to get started. It will run the application and
 serve the graphical user interface which can be viewed using your preferred
-web browser.
+web browser:
 
 ```r
 ubigen::run_app()
@@ -27,6 +27,13 @@ ubigen::run_app()
 
 For additional information on using the R package, take a look at the built-in
 documentation (`?ubigen::run_app`).
+
+### Server
+
+Docker images for deploying Ubigen on a server are available on Docker Hub at
+[johrpan/ubigen](https://hub.docker.com/r/johrpan/ubigen). They expose the web
+application at port 3464. We recommend setting up a reverse proxy to enable
+TLS.
 
 ## License
 
