@@ -1,6 +1,6 @@
 #' Function for creating the main user interface.
 #' @noRd
-ui <- function(custom_dataset = NULL) {
+ui <- function(custom_dataset = NULL, show_api_docs = FALSE) {
   div(
     custom_css(),
     rclipboard::rclipboardSetup(),
@@ -305,13 +305,17 @@ ui <- function(custom_dataset = NULL) {
           includeMarkdown(system.file("content", "help.md", package = "ubigen"))
         )
       ),
-      tabPanel(
-        title = "API access",
-        div(
-          class = "container",
-          includeMarkdown(system.file("content", "api.md", package = "ubigen"))
+      if (show_api_docs) {
+        tabPanel(
+          title = "API access",
+          div(
+            class = "container",
+            includeMarkdown(
+              system.file("content", "api.md", package = "ubigen")
+            )
+          )
         )
-      )
+      }
     )
   )
 }
