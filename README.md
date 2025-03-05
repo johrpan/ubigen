@@ -1,17 +1,18 @@
 # Ubigen
 
-This R package contains precomputed data including comparisons in gene
-expression within the [GTEx database](https://gtexportal.org). It provides a
-graphical interface to analyze and visualize those data to rank genes based on
-how ubiquitously expressed they are.
+Ubigen is an interactive web application for analyzing ubiquitously expressed
+genes. It is publicly available at
+[ubigen.uni-rostock.de](https://ubigen.uni-rostock.de).
+This repository contains an R package including the input data, the methods and
+the code for the interactive web interface.
 
 ## Installation
 
 You can install the development version of `ubigen` using:
 
 ```r
-# install.packages("remotes")
-remotes::install_git("https://github.com/johrpan/ubigen.git")
+# install.packages("pak")
+pak::pkg_install("johrpan/ubigen")
 ```
 
 ## Usage
@@ -24,8 +25,8 @@ web browser.
 ubigen::run_app()
 ```
 
-For additional information, take a look at the built-in documentation
-(`?ubigen::run_app`).
+For additional information on using the R package, take a look at the built-in
+documentation (`?ubigen::run_app`).
 
 ## License
 
