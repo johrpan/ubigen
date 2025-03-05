@@ -1,0 +1,28 @@
+docker-build:
+  image: docker:cli
+  stage: build
+  services:
+    - docker:dind
+  variables:
+    DOCKER_IMAGE_NAME: $CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA
+  before_script:
+    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
+  script:
+    - if [[ ! "$CI_COMMIT_TAG" =~ ^v[0-9]+(\.[0-9]+)*$ ]]; then
+        mkdir -p inst/misc
+        echo "$CI_COMMIT_SHA" > inst/misc/commit.txt
+      fi
+    - docker build --pull -t "$DOCKER_IMAGE_NAME" .
+    - docker push "$CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA"
+    - |
+      if [[ "$CI_COMMIT_TAG" =~ ^v[0-9]+(\.[0-9]+)*$ ]]; then
+        docker tag "$DOCKER_IMAGE_NAME" "$CI_REGISTRY_IMAGE:$CI_COMMIT_TAG"
+        docker tag "$DOCKER_IMAGE_NAME" "$CI_REGISTRY_IMAGE:latest"
+        docker push "$CI_REGISTRY_IMAGE:$CI_COMMIT_TAG"
+        docker push "$CI_REGISTRY_IMAGE:latest"
+      else
+        docker tag "$DOCKER_IMAGE_NAME" "$CI_REGISTRY_IMAGE:nightly"
+        docker push "$CI_REGISTRY_IMAGE:nightly"
+      fi
+  rules:
+    - if: $CI_COMMIT_BRANCH == "main"
