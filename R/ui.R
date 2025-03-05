@@ -1,6 +1,20 @@
 #' Function for creating the main user interface.
 #' @noRd
 ui <- function(custom_dataset = NULL, show_api_docs = FALSE) {
+  title <- "Ubigen"
+  commit_text <- ""
+
+  commit_file <- system.file("misc", "commit.txt", package = "ubigen")
+  if (file.exists(commit_file)) {
+    title <- "Ubigen (Staging)"
+    long_hash <- readLines(commit_file, warn = FALSE)[1]
+    short_hash <- substr(long_hash, 1, 7)
+    commit_text <- glue::glue(
+      ", commit <a href=\"https://gitlab.uni-rostock.de/ep135/ubigen/-/commit/",
+      "{long_hash}\" target=\"_blank\"><code>{short_hash}</code></a>"
+    )
+  }
+
   div(
     custom_css(),
     rclipboard::rclipboardSetup(),
@@ -10,7 +24,7 @@ ui <- function(custom_dataset = NULL, show_api_docs = FALSE) {
         bootswatch = "united",
         primary = "#7d19bf"
       ),
-      title = "Ubigen",
+      title = title,
       tabPanel(
         "Explore",
         sidebarLayout(
@@ -108,7 +122,8 @@ ui <- function(custom_dataset = NULL, show_api_docs = FALSE) {
             div(
               class = "footer",
               HTML(glue::glue(
-                "Ubigen version {packageVersion(\"ubigen\")}<br>Source code: ",
+                "Ubigen version {packageVersion(\"ubigen\")}{commit_text}<br>",
+                "Source code: ",
                 "<a href=\"https://gitlab.uni-rostock.de/ep135/ubigen/\" ",
                 "target=\"blank\">available online</a> (GNU AGPL v3)<br>",
                 "Citation: Manuscript in preparation"
