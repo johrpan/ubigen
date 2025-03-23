@@ -32,7 +32,20 @@ documentation (`?ubigen::run_app`).
 
 The [`Dockerfile`](Dockerfile) included in this repository can be used to
 deploy Ubigen on a server. It exposes the web application at port 3464. We
-recommend setting up a reverse proxy to enable TLS.
+recommend setting up a reverse proxy to enable TLS. Prebuilt Docker images are
+available on [Docker Hub](https://hub.docker.com/r/johrpan/ubigen). You can
+get the latest release using:
+
+```bash
+docker pull johrpan/ubigen
+```
+
+Running the image like this will expose an _unencrypted_ HTTP server at port
+80:
+
+```bash
+docker run -p 80:3464 johrpan/ubigen
+```
 
 ## License
 
