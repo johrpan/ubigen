@@ -1,0 +1,25 @@
+name: Docker Image CI
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Get short commit hash
+      run: echo "COMMIT_SHORT_HASH=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
+    - name: Build the Docker image
+      run: docker build . --file Dockerfile --tag ubigen:$COMMIT_SHORT_HASH
+    - name: Run the container
+      run: docker run -dp 3464:3464 ubigen:$COMMIT_SHORT_HASH
+    - name: Test the application
+      run: |
+        for i in {1..10}; do
+          sleep 2
+          echo "Try $i …"
+          curl -s http://localhost:3464 | grep -q "<title>Ubigen</title>" && echo "Success" && exit 0
+        done
+        exit 1
