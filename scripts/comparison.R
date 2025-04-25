@@ -59,7 +59,7 @@ datasets_data <- rbindlist(lapply(names(datasets), function(name) {
 datasets_data <- rbind(
   datasets_data,
   data.table(
-    dataset = "Venn",
+    dataset = "Venn 88",
     gene = genes_venn
   )
 )
