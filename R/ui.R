@@ -42,7 +42,7 @@ ui <- function(custom_dataset = NULL, show_api_docs = FALSE) {
               verticalLayout(
                 strong("Expression across samples"),
                 paste0(
-                  "Proportion samples in which the gene is expressed above ",
+                  "Proportion of samples in which the gene is expressed above ",
                   "the selected threshold. Select a method and a weight for ",
                   "the final score."
                 )
