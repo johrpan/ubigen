@@ -27,7 +27,8 @@ ui <- function(custom_dataset = NULL, show_api_docs = FALSE) {
                   "GTEx (across tissues and conditions)" = "gtex_all",
                   "GTEx (across tissues)" = "gtex_tissues",
                   "Human Protein Atlas (across tissues)" = "hpa_tissues",
-                  "CMap" = "cmap"
+                  "CMap" = "cmap",
+                  "Glioma (TCGA)" = "glioma"
                 )
 
                 if (!is.null(custom_dataset)) {
@@ -162,7 +163,8 @@ ui <- function(custom_dataset = NULL, show_api_docs = FALSE) {
                       "GTEx (across tissues and conditions)" = "gtex_all",
                       "GTEx (across tissues)" = "gtex_tissues",
                       "Human Protein Atlas (across tissues)" = "hpa_tissues",
-                      "CMap" = "cmap"
+                      "CMap" = "cmap",
+                      "Glioma (TCGA)" = "glioma"
                     ),
                     selected = "cmap"
                   ),
@@ -182,7 +184,8 @@ ui <- function(custom_dataset = NULL, show_api_docs = FALSE) {
                       "GTEx (across tissues and conditions)" = "gtex_all",
                       "GTEx (across tissues)" = "gtex_tissues",
                       "Human Protein Atlas (across tissues)" = "hpa_tissues",
-                      "CMap" = "cmap"
+                      "CMap" = "cmap",
+                      "Glioma (TCGA)" = "glioma"
                     )
                   ),
                   selectInput(

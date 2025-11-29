@@ -11,6 +11,8 @@ server <- function(custom_dataset = NULL) {
         ubigen::gtex_all
       } else if (input$dataset == "cmap") {
         ubigen::cmap
+      } else if (input$dataset == "glioma") {
+        ubigen::glioma
       } else {
         custom_dataset
       }
@@ -139,6 +141,11 @@ server <- function(custom_dataset = NULL) {
           list(
             ranking = rank_genes(ubigen::cmap),
             label = "CMap"
+          )
+        } else if (ranking_id == "glioma") {
+          list(
+            ranking = rank_genes(ubigen::glioma),
+            label = "Glioma (TCGA)"
           )
         } else {
           list(

@@ -4,7 +4,7 @@
 library(data.table)
 library(here)
 
-i_am("scripts/input.R")
+i_am("scripts/gtex_all.R")
 
 data <- fread(here("scripts", "input", "data_long.csv"))
 gtex_all <- ubigen::analyze(data)
