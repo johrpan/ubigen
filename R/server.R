@@ -164,6 +164,7 @@ server <- function(custom_dataset = NULL) {
         label_x = x$label,
         label_y = y$label,
         highlighted_genes = custom_genes(),
+        limit_genes = input$rankings_comparison_genes == "custom",
         use_percentiles = input$rankings_comparison_mode == "percentiles"
       )
     })

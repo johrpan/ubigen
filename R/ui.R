@@ -195,6 +195,14 @@ ui <- function(custom_dataset = NULL, show_api_docs = FALSE) {
                       "Compare scores" = "scores",
                       "Compare percentiles" = "percentiles"
                     )
+                  ),
+                  selectInput(
+                    "rankings_comparison_genes",
+                    label = NULL,
+                    list(
+                      "All genes" = "all",
+                      "Your genes" = "custom"
+                    )
                   )
                 ),
                 div(class = "p-1"),

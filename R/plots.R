@@ -185,6 +185,7 @@ scores_plot <- function(ranked_data, highlighted_genes = NULL, ranks = 1000) {
 #' @param label_x Axis title for the X-axis.
 #' @param label_y Axis title for the Y-axis.
 #' @param highlighted_genes Gene IDs for genes that should be highlighted
+#' @param limit_genes Only show highlighted genes.
 #' @param use_percentiles Display percentiles instead of scores.
 #'
 #' @return A `plotly` figure for rendering.
@@ -195,6 +196,7 @@ rankings_comparison_plot <- function(ranking_x,
                                      label_x = "Ranking X",
                                      label_y = "Ranking Y",
                                      highlighted_genes = NULL,
+                                     limit_genes = FALSE,
                                      use_percentiles = FALSE) {
   data <- merge(
     ranking_x[, .(gene, score, percentile)],
@@ -233,6 +235,10 @@ rankings_comparison_plot <- function(ranking_x,
   threshold_x <- data[percentile_x >= 0.95, min(score_x)]
   threshold_y <- data[percentile_y >= 0.95, min(score_y)]
 
+  if (limit_genes) {
+    data <- data[gene %chin% highlighted_genes]
+  }
+
   plotly::plot_ly() |>
     plotly::add_markers(
       data = data,
@@ -253,9 +259,13 @@ rankings_comparison_plot <- function(ranking_x,
     plotly::layout(
       xaxis = list(
         title = label_x,
-        tickformat = if (use_percentiles) ".1%" else NULL
+        tickformat = if (use_percentiles) ".1%" else NULL,
+        range = c(0.0, 1.0)
       ),
-      yaxis = list(title = label_y),
+      yaxis = list(
+        title = label_y,
+        range = c(0.0, 1.0)
+      ),
       shapes = if (!use_percentiles) {
         list(
           vline(threshold_x),
