@@ -230,6 +230,9 @@ rankings_comparison_plot <- function(ranking_x,
   # Draw "Your genes" on top of "All genes".
   setorder(data, group)
 
+  threshold_x <- data[percentile_x >= 0.95, min(score_x)]
+  threshold_y <- data[percentile_y >= 0.95, min(score_y)]
+
   plotly::plot_ly() |>
     plotly::add_markers(
       data = data,
@@ -253,10 +256,41 @@ rankings_comparison_plot <- function(ranking_x,
         tickformat = if (use_percentiles) ".1%" else NULL
       ),
       yaxis = list(title = label_y),
-      shapes = list(
-        vline(0.5),
-        hline(0.5)
-      ),
+      shapes = if (!use_percentiles) {
+        list(
+          vline(threshold_x),
+          hline(threshold_y)
+        )
+      } else {
+        NULL
+      },
+      annotations = if (!use_percentiles) {
+        list(
+          list(
+            text = "95%",
+            x = threshold_x,
+            y = 1,
+            xshift = 2,
+            yshift = 3,
+            yref = "paper",
+            xanchor = "left",
+            yanchor = "top",
+            showarrow = FALSE
+          ),
+          list(
+            text = "95%",
+            x = 1,
+            y = threshold_y,
+            yshift = 2,
+            xref = "paper",
+            xanchor = "right",
+            yanchor = "bottom",
+            showarrow = FALSE
+          )
+        )
+      } else {
+        NULL
+      },
       clickmode = "event+select",
       dragmode = "lasso"
     )
