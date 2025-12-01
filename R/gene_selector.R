@@ -24,6 +24,7 @@ gene_selector_ui <- function(id) {
         "Select from list" = "list",
         "Enter HGNC symbols" = "hgnc",
         "Enter Ensembl gene IDs" = "ensembl",
+        "Sample data: Common reference genes" = "literature",
         "Sample data: Glycolysis" = "sample"
       )
     ),
@@ -102,6 +103,30 @@ gene_selector_server <- function(id) {
         inputs <- unique(strsplit(input$gene_ids_raw, "\\s+")[[1]])
         inputs <- inputs[inputs != ""]
         ubigen::genes[gene %chin% inputs, gene]
+      } else if (input$identifier_type == "literature") {
+        # Commonly used reference genes based on literature (see paper).
+        c(
+          "ENSG00000075624",
+          "ENSG00000166710",
+          "ENSG00000111640",
+          "ENSG00000256269",
+          "ENSG00000133704",
+          "ENSG00000116459",
+          "ENSG00000169919",
+          "ENSG00000165704",
+          "ENSG00000102144",
+          "ENSG00000196262",
+          "ENSG00000231500",
+          "ENSG00000112592",
+          "ENSG00000072274",
+          "ENSG00000164924",
+          "ENSG00000134333",
+          "ENSG00000171314",
+          "ENSG00000149925",
+          "ENSG00000026025",
+          "ENSG00000067057",
+          "ENSG00000160211"
+        )
       } else {
         # Sample genes involved in glycolysis according to the KEGG pathways
         # database [KEGG:hsa00010+M00001].
